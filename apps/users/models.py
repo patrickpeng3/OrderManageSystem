@@ -1,12 +1,10 @@
 from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import AbstractUser
-
-
 # Create your models here.
 
 
-class UserProfile(AbstractUser):
+class User(AbstractUser):
     """
     会员列表
     """
@@ -26,6 +24,7 @@ class UserProfile(AbstractUser):
     class Meta:
         verbose_name = "会员列表"
         verbose_name_plural = verbose_name
+        ordering = ['id']
 
     def __str__(self):
         return self.username

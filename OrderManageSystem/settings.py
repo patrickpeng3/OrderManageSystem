@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.homepage',
-    # 'apps.user'
+    'apps.users',
+    # 'apps.member',
 ]
 
 MIDDLEWARE = [
@@ -138,6 +139,6 @@ STATICFILES_DIRS = (
 # Default primary key field type
 # https://docs.djangoproject.com/en/dev/ref/settings/#default-auto-field
 
-# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# AUTH_USER_MODEL = 'user.UserProfile'
+AUTH_USER_MODEL = 'users.User'
