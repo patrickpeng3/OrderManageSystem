@@ -50,7 +50,7 @@
                 data: {"username": u, "password": p, "csrfmiddlewaretoken": csrf},
                 success: function (data) {
                     if (data.login == "success") {
-                        window.location.href = "/homepage/index/";
+                        window.location.href = "../../homepage/index/";
                     }else {
                         alert("账号或密码错误!")
                     }
