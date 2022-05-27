@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import auth
 from django.http import JsonResponse
 # from models import *
+from rest_framework.response import Response
+
+from apps.users.models import User
 
 # Create your views here.
 
@@ -16,7 +19,6 @@ def login(request):
             return JsonResponse({"login": "success"})
         else:
             return JsonResponse({"login": "failed"})
-    return render(request, 'X-admin/login.html')
 
 
 # 主页
@@ -27,24 +29,25 @@ def index(request):
         if logout == "1":
             auth.logout(request)
             return JsonResponse({"ret": "logout"})
-    return render(request, 'X-admin/index.html')
-
-
-# 会员列表
-def memberList(request):
-    return render(request, "X-admin/member-list.html")
 
 
 # 动态会员列表
-def memberlist1(request):
-    return render(request, "X-admin/member-list1.html")
+def memberList1(request):
+    # user['id'] = User.objects.all()\
+    username = User.objects.filter(id=1).values('username')[0]['username']
+    jsonData = {
+        "code": 0,
+        "msg": "",
+        "count": 1,
+        "data": {
+            "username": username
+        }
+    }
+    print(jsonData)
+    return JsonResponse(jsonData)
 
 
 # 会员删除
 def memberdel(request):
     return render(request, "X-admin/member-del.html")
 
-
-# welcome1
-def welcome1(request):
-    return render(request, "X-admin/welcome1.html")

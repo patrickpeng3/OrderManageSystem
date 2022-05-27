@@ -1,11 +1,15 @@
 from django.urls import path
-from . import views
+from .views import page
+from .views import action
 
 urlpatterns = [
-    path('login/', views.login),
-    path('index/', views.index),
-    path('index/memberlist', views.memberList),
-    path('index/memberlist1', views.memberlist1),
-    path('index/memberdel', views.memberdel),
-    path('index/welcome1', views.welcome1),
+    path('login/', page.login),
+    path('logintest/', action.login),
+    path('index/', page.index),
+    path('indextest/', action.index),
+    path('index/memberlist', page.memberList),
+    path('index/memberlist1', page.memberList1),
+    path('index/memberlist1test', action.memberList1),
+    path('index/memberdel', page.memberdel),
+    path('index/welcome1', page.welcome1),
 ]
