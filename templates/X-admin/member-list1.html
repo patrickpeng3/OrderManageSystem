@@ -48,7 +48,7 @@
                             </form>
                         </div>
                         <div class="layui-card-body ">
-                            <table class="layui-table" lay-data="{url:'/homepage/index/memberlist1test',page:true,toolbar: '#toolbarDemo',id:'test'}" lay-filter="test">
+                            <table class="layui-table" lay-data="{url:'/homepage/index/memberlist1Action',page:true,toolbar: '#toolbarDemo',id:'test'}" lay-filter="test">
                                 <thead>
                                     <tr>
                                         <th lay-data="{type:'checkbox'}">ID</th>
@@ -58,7 +58,8 @@
                                         <th lay-data="{field:'sex', width:80,templet: '#switchTpl'}">性别</th>
                                         <th lay-data="{field:'city', edit: 'text', minWidth: 100}">城市</th>
                                         <th lay-data="{field:'experience', sort: true, edit: 'text'}">积分</th>
-                                        <th lay-data="{field:'dw_xinzhi',templet: function(d){ return d.dw_xinzhi.titel;}}">学校</th></tr>
+                                        <th lay-data="{field:'dw_xinzhi'}">学校</th></tr>
+{#                                        <th lay-data="{field:'dw_xinzhi',templet: function(d){ return d.dw_xinzhi.titel;}}">学校</th></tr>#}
                                 </thead>
                             </table>
                         </div>

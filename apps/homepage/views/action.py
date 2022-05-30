@@ -34,14 +34,29 @@ def index(request):
 # 动态会员列表
 def memberList1(request):
     # user['id'] = User.objects.all()\
-    username = User.objects.filter(id=1).values('username')[0]['username']
+    user = User.objects.all()[0]
+    _id = user.id
+    username = user.username
+    sex = user.gender
+    score = user.score
+    city = user.city
+    school = user.school
+    email = user.email
     jsonData = {
         "code": 0,
-        "msg": "",
+        # "msg": "",
         "count": 1,
-        "data": {
-            "username": username
-        }
+        "data": [
+            {
+                'id': _id,
+                'username': username,
+                'email': email,
+                'sex': sex,
+                'city': city,
+                'experience': score,
+                'dw_xinzhi': school,
+            }
+        ]
     }
     print(jsonData)
     return JsonResponse(jsonData)
