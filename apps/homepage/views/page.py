@@ -44,3 +44,11 @@ def orderList(request):
 
 def orderList1(request):
     return render(request, "X-admin/order-list1.html")
+
+
+def memberEdit(request):
+    return render(request, "X-admin/member-edit.html")
+
+
+def memberPassword(request):
+    return render(request, "X-admin/member-password.html")

@@ -70,54 +70,12 @@
                             <th lay-data="{field:'city', edit: 'text', minWidth: 100}">城市</th>
                             <th lay-data="{field:'experience', sort: true, edit: 'text'}">积分</th>
                             <th lay-data="{field:'school'}">学校</th>
-                            <th lay-data="{'field':'status'}">状态</th>
-                            <th lay-data="{'field':'operation'}">操作</th>
+                            <th lay-data="{'field':'status', 'toolbar': '#StatusToolBar'}">状态</th>
+                            <th lay-data="{'field':'operation', 'toolbar':'#OperationToolBar'}">操作</th>
                         </tr>
                         </thead>
-                        {#                        <tbody>#}
-                        {#                        <tr>#}
-                        {#                            <td>#}
-                        {#                                <input type="checkbox" name="id" value="6" lay-skin="primary">#}
-                        {#                            </td>#}
-                        {#                            <td>1</td>#}
-                        {#                            <td>小明</td>#}
-                        {#                            <td>男</td>#}
-                        {#                            <td>13000000000</td>#}
-                        {#                            <td>北京市 海淀区</td>#}
-                        {#                            <td class="td-status">#}
-                        {#                                <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>#}
-                        {#                            <td class="td-manage">#}
-                        {#                                <a onclick="member_stop(this,'10001')" href="javascript:;" title="启用">#}
-                        {#                                    <i class="layui-icon">&#xe601;</i>#}
-                        {#                                </a>#}
-                        {#                                <a title="编辑" onclick="xadmin.open('编辑','member-edit.html',600,400)"#}
-                        {#                                   href="javascript:;">#}
-                        {#                                    <i class="layui-icon">&#xe642;</i>#}
-                        {#                                </a>#}
-                        {#                                <a onclick="xadmin.open('修改密码','member-password.html',600,400)" title="修改密码"#}
-                        {#                                   href="javascript:;">#}
-                        {#                                    <i class="layui-icon">&#xe631;</i>#}
-                        {#                                </a>#}
-                        {#                                <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">#}
-                        {#                                    <i class="layui-icon">&#xe640;</i>#}
-                        {#                                </a>#}
-                        {#                            </td>#}
-                        {#                        </tr>#}
-                        {#                        </tbody>#}
                     </table>
                 </div>
-                {#                <div class="layui-card-body ">#}
-                {#                    <div class="page">#}
-                {#                        <div>#}
-                {#                            <a class="prev" href="">&lt;&lt;</a>#}
-                {#                            <a class="num" href="">1</a>#}
-                {#                            <span class="current">2</span>#}
-                {#                            <a class="num" href="">3</a>#}
-                {#                            <a class="num" href="">489</a>#}
-                {#                            <a class="next" href="">&gt;&gt;</a>#}
-                {#                        </div>#}
-                {#                    </div>#}
-                {#                </div>#}
             </div>
         </div>
     </div>
@@ -140,14 +98,18 @@
             form.render('checkbox');
         });
 
+
         //监听单元格编辑
         table.on('edit(test)',
             function (obj) {
                 var value = obj.value, //得到修改后的值
                     data = obj.data, //得到所在行所有键值
                     field = obj.field; //得到字段
+                if (field == 'status'){
+                    alert(field)
+                }
                 layer.msg('[ID: ' + data.id + '] ' + field + ' 字段更改为：' + value);
-        });
+            });
 
         //执行一个laydate实例
         laydate.render({
@@ -212,5 +174,37 @@
             $(".layui-form-checked").not('.header').parents('tr').remove();
         });
     }
+</script>
+
+<!-- 用户状态templet -->
+<script type="text/html" id="StatusTemplet">
+    <span class="layui-btn layui-btn-normal layui-btn-mini" lay-data="/homepage/index/memberList1Action/{{ d.status }}">已启用</span>
+    <span class="layui-btn layui-btn-danger layui-btn-mini">已禁用</span>
+</script>
+<!-- 用户状态toolbar -->
+<script type="text/html" id="StatusToolBar">
+    <span class="layui-btn layui-btn-normal layui-btn-mini" lay-event="active">已启用</span>
+    <span class="layui-btn layui-btn-danger layui-btn-mini" lay-event="banned">已禁用</span>
+</script>
+<!-- 用户操作 -->
+<script type="text/html" id="OperationToolBar">
+    <a onclick="member_stop(this,'10001')" href="javascript:;" title="启用">
+        <i class="layui-icon">&#xe601;</i>
+    </a>
+    <a title="编辑" onclick="xadmin.open('编辑','memberEdit',600,400)"
+       href="javascript:;">
+        <i class="layui-icon">&#xe642;</i>
+    </a>
+    <a onclick="xadmin.open('修改密码','memberPassword',600,400)" title="修改密码"
+       href="javascript:;">
+        <i class="layui-icon">&#xe631;</i>
+    </a>
+    <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+        <i class="layui-icon">&#xe640;</i>
+    </a>
+</script>
+<!-- 用户性别选择 -->
+<script type="text/html" id="switchTpl">
+    <input type = "checkbox" name = "sex" value = "{{d.id}}" lay-skin = "switch"lay-text = "女|男" lay-filter = "sexDemo">
 </script>
 </html>
