@@ -33,7 +33,6 @@ def index(request):
 
 # 动态会员列表
 def memberList1(request):
-    # user['id'] = User.objects.all()\
     user_list = User.objects.all()
     data_list = []
     for i in range(len(user_list)):
@@ -45,6 +44,8 @@ def memberList1(request):
         city = user.city
         school = user.school
         email = user.email
+        status = 1
+        operation = "TestOperation"
         data_cfg = {
             'id': _id,
             'username': username,
@@ -52,7 +53,9 @@ def memberList1(request):
             'sex': sex,
             'city': city,
             'experience': score,
-            'dw_xinzhi': school,
+            'school': school,
+            'status': status,
+            'operation': operation,
         }
         data_list.append(data_cfg)
     jsonData = {
@@ -61,6 +64,7 @@ def memberList1(request):
         "count": len(user_list),
         "data": data_list
     }
+    print(jsonData)
     return JsonResponse(jsonData)
 
 

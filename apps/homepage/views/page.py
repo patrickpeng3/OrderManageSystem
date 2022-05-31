@@ -36,3 +36,11 @@ def welcome1(request):
 
 def memberAdd(request):
     return render(request, "X-admin/member-add.html")
+
+
+def orderList(request):
+    return render(request, "X-admin/order-list.html")
+
+
+def orderList1(request):
+    return render(request, "X-admin/order-list1.html")
