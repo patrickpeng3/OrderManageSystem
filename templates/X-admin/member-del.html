@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html class="x-admin-sm">
-  
+
   <head>
     <meta charset="UTF-8">
     <title>欢迎页面-X-admin2.2</title>
@@ -17,7 +17,7 @@
       <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  
+
   <body>
     <div class="x-nav">
       <span class="layui-breadcrumb">
@@ -54,71 +54,72 @@
                     </div>
                     <div class="layui-card-body ">
                         <table class="layui-table layui-form">
-                          <thead>
+                            <thead>
                             <tr>
-                              <th>
-                                <input type="checkbox" name=""  lay-skin="primary">
-                              </th>
-                              <th>ID</th>
-                              <th>用户名</th>
-                              <th>性别</th>
-                              <th>手机</th>
-                              <th>邮箱</th>
-                              <th>地址</th>
-                              <th>加入时间</th>
-                              <th>状态</th>
-                              <th>操作</th></tr>
-                          </thead>
-                          <tbody>
+                                <th>
+                                    <input type="checkbox" name="" lay-skin="primary">
+                                </th>
+                                <th>ID</th>
+                                <th>用户名</th>
+                                <th>性别</th>
+                                <th>手机</th>
+                                <th>邮箱</th>
+                                <th>地址</th>
+                                <th>加入时间</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
                             <tr>
-                              <td>
-                                <input type="checkbox" name=""  lay-skin="primary"> 
-                              </td>
-                              <td>1</td>
-                              <td>小明</td>
-                              <td>男</td>
-                              <td>13000000000</td>
-                              <td>admin@mail.com</td>
-                              <td>北京市 海淀区</td>
-                              <td>2017-01-01 11:11:42</td>
-                              <td class="td-status">
+                                <td>
+                                    <input type="checkbox" name="" lay-skin="primary">
+                                </td>
+                                <td>1</td>
+                                <td>小明</td>
+                                <td>男</td>
+                                <td>13000000000</td>
+                                <td>admin@mail.com</td>
+                                <td>北京市 海淀区</td>
+                                <td>2017-01-01 11:11:42</td>
+                                <td class="td-status">
                                 <span class="layui-btn layui-btn-danger layui-btn-mini">
                                                   已删除
                                               </span>
-                              <td class="td-manage">
-                                <a title="恢复" onclick="member_del(this,'要删除的id')" href="javascript:;">
-                                  <i class="layui-icon">&#xe669;</i>
-                                </a>
-                                <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
-                                  <i class="layui-icon">&#xe640;</i>
-                                </a>
-                              </td>
+                                <td class="td-manage">
+                                    <a title="恢复" onclick="member_del(this,'要删除的id')" href="javascript:;">
+                                        <i class="layui-icon">&#xe669;</i>
+                                    </a>
+                                    <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+                                        <i class="layui-icon">&#xe640;</i>
+                                    </a>
+                                </td>
                             </tr>
                             <tr>
-                              <td>
-                                <input type="checkbox" name=""  lay-skin="primary"> 
-                              </td>
-                              <td>1</td>
-                              <td>小明</td>
-                              <td>男</td>
-                              <td>13000000000</td>
-                              <td>admin@mail.com</td>
-                              <td>北京市 海淀区</td>
-                              <td>2017-01-01 11:11:42</td>
-                              <td class="td-status">
+                                <td>
+                                    <input type="checkbox" name="" lay-skin="primary">
+                                </td>
+                                <td>1</td>
+                                <td>小明</td>
+                                <td>男</td>
+                                <td>13000000000</td>
+                                <td>admin@mail.com</td>
+                                <td>北京市 海淀区</td>
+                                <td>2017-01-01 11:11:42</td>
+                                <td class="td-status">
                                 <span class="layui-btn layui-btn-danger layui-btn-mini">
                                                   已删除
                                               </span>
-                              <td class="td-manage">
-                                <a title="恢复" onclick="member_del(this,'要删除的id')" href="javascript:;">
-                                  <i class="layui-icon">&#xe669;</i>
-                                </a>
-                                <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
-                                  <i class="layui-icon">&#xe640;</i>
-                                </a>
-                              </td>
+                                <td class="td-manage">
+                                    <a title="恢复" onclick="member_del(this,'要删除的id')" href="javascript:;">
+                                        <i class="layui-icon">&#xe669;</i>
+                                    </a>
+                                    <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+                                        <i class="layui-icon">&#xe640;</i>
+                                    </a>
+                                </td>
                             </tr>
-                          </tbody>
+                            </tbody>
                         </table>
                     </div>
                     <div class="layui-card-body ">
@@ -136,11 +137,11 @@
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
     <script>
       layui.use(['laydate','form'], function(){
         var laydate = layui.laydate;
-        
+
         //执行一个laydate实例
         laydate.render({
           elem: '#start' //指定元素
@@ -167,7 +168,7 @@
       function delAll (argument) {
 
         var data = tableCheck.getData();
-  
+
         layer.confirm('确认要恢复吗？'+data,function(index){
             //捉到所有被选中的，发异步进行删除
             layer.msg('恢复成功', {icon: 1});

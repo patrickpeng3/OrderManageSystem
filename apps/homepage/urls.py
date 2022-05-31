@@ -13,4 +13,6 @@ urlpatterns = [
     path('index/memberdel', page.memberdel),
     path('index/memberdekAction', action.memberdel),
     path('index/welcome1', page.welcome1),
+    path('index/memberAdd', page.memberAdd),
+    path('index/memberAddAction', action.memberAdd)
 ]

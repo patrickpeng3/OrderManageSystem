@@ -32,3 +32,7 @@ def memberdel(request):
 # welcome1
 def welcome1(request):
     return render(request, "X-admin/welcome1.html")
+
+
+def memberAdd(request):
+    return render(request, "X-admin/member-add.html")

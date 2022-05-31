@@ -45,7 +45,7 @@
             $.ajax({
                 type: "post",
                 dataType: "json",
-                url: "/homepage/logintest/",
+                url: "/homepage/loginAction/",
                 async: true,
                 data: {"username": u, "password": p, "csrfmiddlewaretoken": csrf},
                 success: function (data) {

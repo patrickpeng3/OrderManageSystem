@@ -14,6 +14,7 @@ class User(AbstractUser):
     )
     id = models.AutoField("id", primary_key=True)
     name = models.CharField("用户名", max_length=50)
+    number = models.CharField("手机号", max_length=11, null=True, blank=True)
     email = models.EmailField("邮箱", max_length=100, null=True, blank=True)
     gender = models.CharField("性别", max_length=6, choices=GENDER_CHOICES, default="female")
     city = models.CharField("城市", max_length=100, null=True, blank=True, default="")
