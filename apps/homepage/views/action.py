@@ -88,6 +88,10 @@ def memberAdd(request):
 
 
 def memberPassword(request):
-    username = request.POST['username']
-    oldPasswd = request.POST['oldpass']
-    print(username, oldPasswd)
+    # username = request.POST['username']
+    oldPasswd = request.POST.get("L_oldpass")
+    test = request.POST.get("test")
+    print("TEST")
+    print(test)
+    print(oldPasswd)
+    return JsonResponse({"ret": "ret"})
