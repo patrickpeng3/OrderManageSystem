@@ -6,7 +6,7 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
-          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8"/>
     <link rel="stylesheet" href="../../static/css/font.css">
     <link rel="stylesheet" href="../../static/css/xadmin.css">
     <script src="../../static/lib/layui/layui.js" charset="utf-8"></script>
@@ -119,6 +119,9 @@
             elem: '#end' //指定元素
         });
 
+        {#table.on('row(memberList)', function (tableRow) {#}
+        {#    alert(tableRow.data['id']);#}
+        //});
     });
 
     /*用户-停用*/
@@ -147,26 +150,33 @@
 
     /*用户-删除*/
     function member_del(obj, id) {
-        table.on('row(memberList)', function (obj) {
-            $.ajax({
-                type: 'post',
-                async: true,
-                dataType: 'json',
-                url: '/homepage/index/memberdekAction',
-                data: {
-                    'id': obj.data['id']
-                },
-                success: function (data){
-                    
-                }
-            })
-
-        });
-
-        layer.confirm('确认要删除吗？', function (index) {
-            //发异步删除数据
-            $(obj).parents("tr").remove();
-            layer.msg('已删除!', {icon: 1, time: 1000});
+        var table = layui.table;
+        table.on('row(memberList)', function (tableRow) {
+            layer.confirm('确认要删除吗？', function (index) {
+                $(obj).parents("tr").remove();
+                layer.msg('已删除!', {icon: 1, time: 1000});
+                $.ajax({
+                    type: "get",
+                    async: true,
+                    dataType: "json",
+                    url: "/homepage/index/memberdelAction",
+                    data: {
+                        'id': tableRow.data['id'],
+                    },
+                    success: function (data) {
+                        if (data.ret == 'success') {
+                            //发异步删除数据
+                            $(obj).parents("tr").remove();
+                            layer.msg('已删除!', {icon: 1, time: 1000});
+                        } else {
+                            alert("删除失败！");
+                        }
+                    },
+                    error: function (data) {
+                        alert("Error！");
+                    }
+                });
+            });
         });
     }
 

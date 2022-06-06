@@ -65,13 +65,20 @@ def memberList1(request):
         "count": len(user_list),
         "data": data_list
     }
-    print(jsonData)
+    # print(jsonData)
     return JsonResponse(jsonData)
 
 
 # 会员删除
 def memberdel(request):
-    print("memberdel")
+    if request.method == 'get':
+        id = request.GET.get('id')
+        print(id)
+        try:
+            User.objects.get(id=id).delete()
+            return JsonResponse({'ret': 'success'})
+        except Exception:
+            print("删除id为{id}的用户失败！".format(id=id))
 
 
 def memberAdd(request):

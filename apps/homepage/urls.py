@@ -11,7 +11,7 @@ urlpatterns = [
     path('index/memberlist1', page.memberList1),
     path('index/memberlist1Action', action.memberList1),
     path('index/memberdel', page.memberdel),
-    path('index/memberdekAction', action.memberdel),
+    path('index/memberdelAction', action.memberdel),
     path('index/welcome1', page.welcome1),
     path('index/memberAdd', page.memberAdd),
     path('index/memberAddAction', action.memberAdd),
