@@ -34,39 +34,49 @@ def index(request):
 
 # 动态会员列表
 def memberList1(request):
-    user_list = User.objects.all()
-    data_list = []
-    for i in range(len(user_list)):
-        user = user_list[i]
-        _id = user.id
-        username = user.username
-        sex = user.gender
-        score = user.score
-        city = user.city
-        school = user.school
-        email = user.email
-        status = 1
-        operation = "TestOperation"
-        data_cfg = {
-            'id': _id,
-            'username': username,
-            'email': email,
-            'sex': sex,
-            'city': city,
-            'score': score,
-            'school': school,
-            'status': status,
-            'operation': operation,
+    if request.GET.get("method"):
+        id = request.GET.get("id")
+        user = User.objects.get(id=id)
+        if user.status == 1:
+            user.status = 0
+        else:
+            user.status = 1
+        user.save()
+        return JsonResponse({'status': user.status})
+    else:
+        user_list = User.objects.all()
+        data_list = []
+        for i in range(len(user_list)):
+            user = user_list[i]
+            _id = user.id
+            username = user.username
+            sex = user.gender
+            score = user.score
+            city = user.city
+            school = user.school
+            email = user.email
+            status = 1
+            operation = "TestOperation"
+            data_cfg = {
+                'id': _id,
+                'username': username,
+                'email': email,
+                'sex': sex,
+                'city': city,
+                'score': score,
+                'school': school,
+                'status': status,
+                'operation': operation,
+            }
+            data_list.append(data_cfg)
+        jsonData = {
+            "code": 0,
+            # "msg": "",
+            "count": len(user_list),
+            "data": data_list
         }
-        data_list.append(data_cfg)
-    jsonData = {
-        "code": 0,
-        # "msg": "",
-        "count": len(user_list),
-        "data": data_list
-    }
-    # print(jsonData)
-    return JsonResponse(jsonData)
+        # print(jsonData)
+        return JsonResponse(jsonData)
 
 
 # 会员删除
@@ -112,7 +122,6 @@ def memberEdit(request):
         user = User.objects.get(id=id)
         setattr(user, field, value)
         user.save()
-        print(field)
         return JsonResponse({"ret": "success"})
     else:
         print("修改失败！")

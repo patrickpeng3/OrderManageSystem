@@ -20,6 +20,7 @@ class User(AbstractUser):
     city = models.CharField("城市", max_length=100, null=True, blank=True, default="")
     score = models.IntegerField("积分", default=0)
     school = models.CharField("学校", max_length=100, null=True, blank=True, default="")
+    status = models.IntegerField('状态', max_length=1, default=1)
     add_time = models.DateTimeField("添加时间", default=datetime.now)
 
     class Meta:

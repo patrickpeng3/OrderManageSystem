@@ -53,7 +53,8 @@
                 <div class="layui-card-header">
                     <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除
                     </button>
-                    <button class="layui-btn" onclick="xadmin.open('添加用户','memberAdd',600,400)"><i class="layui-icon"></i>添加
+                    <button class="layui-btn" onclick="xadmin.open('添加用户','memberAdd',600,400)"><i
+                            class="layui-icon"></i>添加
                     </button>
                 </div>
                 <div class="layui-card-body">
@@ -213,6 +214,33 @@
             $(".layui-form-checked").not('.header').parents('tr').remove();
         });
     }
+
+    function ChangeStatus() {
+        var table = layui.table;
+        table.on('row(memberList)', function (tableRow) {
+            $.ajax({
+                type: 'get',
+                dataType: 'json',
+                url: "/homepage/index/memberlist1Action",
+                data: {
+                    'method': 'getStatus',
+                    'id': tableRow.data.id
+                },
+                success: function (data) {
+                    if (data.status == 1) {
+                        $("#is_banned").hide();
+                        $("#is_active").show();
+                    } else {
+                        $("#is_active").hide();
+                        $("#is_banned").show();
+                    }
+                },
+                error: function (data) {
+                    alert("error!")
+                }
+            })
+        })
+    }
 </script>
 
 <!-- 用户状态templet -->
@@ -222,18 +250,20 @@
 </script>
 <!-- 用户状态toolbar -->
 <script type="text/html" id="StatusToolBar">
-    <span class="layui-btn layui-btn-normal layui-btn-mini" lay-event="active">已启用</span>
-    <span class="layui-btn layui-btn-danger layui-btn-mini" lay-event="banned">已禁用</span>
+    <span id="is_active" class="layui-btn layui-btn-normal layui-btn-mini" lay-event="active"
+          onclick="ChangeStatus(this)">已启用</span>
+    <span id="is_banned" class="layui-btn layui-btn-danger layui-btn-mini" lay-event="banned"
+          onclick="ChangeStatus(this)">已禁用</span>
 </script>
 <!-- 用户操作 -->
 <script type="text/html" id="OperationToolBar">
-{#    <a onclick="member_stop(this,'10001')" href="javascript:;" title="启用">#}
-{#        <i class="layui-icon">&#xe601;</i>#}
-{#    </a>#}
-{#    <a title="编辑" onclick="xadmin.open('编辑','memberEdit',600,400)"#}
-{#       href="javascript:;">#}
-{#        <i class="layui-icon">&#xe642;</i>#}
-{#    </a>#}
+    {#    <a onclick="member_stop(this,'10001')" href="javascript:;" title="启用">#}
+    {#        <i class="layui-icon">&#xe601;</i>#}
+    {#    </a>#}
+    {#    <a title="编辑" onclick="xadmin.open('编辑','memberEdit',600,400)"#}
+    {#       href="javascript:;">#}
+    {#        <i class="layui-icon">&#xe642;</i>#}
+    {#    </a>#}
     <a onclick="xadmin.open('修改密码','memberPassword',600,400)" title="修改密码"
        href="javascript:;">
         <i class="layui-icon">&#xe631;</i>
