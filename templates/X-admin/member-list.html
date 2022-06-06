@@ -58,8 +58,8 @@
                 </div>
                 <div class="layui-card-body">
                     <table class="layui-table"
-                           lay-data="{url:'/homepage/index/memberlist1Action',page:true,toolbar: '#toolbarDemo',id:'test'}"
-                           lay-filter="test">
+                           lay-data="{url:'/homepage/index/memberlist1Action',page:true,toolbar: '#toolbarDemo',id:'memberList'}"
+                           lay-filter="memberList">
                         <thead>
                         <tr>
                             <th lay-data="{type:'checkbox'}">ID</th>
@@ -99,12 +99,12 @@
         });
 
         //监听单元格编辑
-        table.on('edit(test)',
+        table.on('edit(memberList)',
             function (obj) {
                 var value = obj.value, //得到修改后的值
                     data = obj.data, //得到所在行所有键值
                     field = obj.field; //得到字段
-                if (field == 'status'){
+                if (field == 'status') {
                     alert(field)
                 }
                 layer.msg('[ID: ' + data.id + '] ' + field + ' 字段更改为：' + value);
@@ -118,7 +118,6 @@
         laydate.render({
             elem: '#end' //指定元素
         });
-
 
     });
 
@@ -148,6 +147,22 @@
 
     /*用户-删除*/
     function member_del(obj, id) {
+        table.on('row(memberList)', function (obj) {
+            $.ajax({
+                type: 'post',
+                async: true,
+                dataType: 'json',
+                url: '/homepage/index/memberdekAction',
+                data: {
+                    'id': obj.data['id']
+                },
+                success: function (data){
+                    
+                }
+            })
+
+        });
+
         layer.confirm('确认要删除吗？', function (index) {
             //发异步删除数据
             $(obj).parents("tr").remove();
@@ -203,6 +218,6 @@
 </script>
 <!-- 用户性别选择 -->
 <script type="text/html" id="switchTpl">
-    <input type = "checkbox" name = "sex" value = "{{d.id}}" lay-skin = "switch"lay-text = "女|男" lay-filter = "sexDemo">
+    <input type="checkbox" name="sex" value="{{ d.id }}" lay-skin="switch" lay-text="女|男" lay-filter="sexDemo">
 </script>
 </html>
