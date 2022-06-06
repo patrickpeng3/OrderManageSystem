@@ -53,7 +53,7 @@ def memberList1(request):
             'email': email,
             'sex': sex,
             'city': city,
-            'experience': score,
+            'score': score,
             'school': school,
             'status': status,
             'operation': operation,
@@ -71,7 +71,7 @@ def memberList1(request):
 
 # 会员删除
 def memberdel(request):
-    if request.method == 'get':
+    if request.method == 'GET':
         id = request.GET.get('id')
         print(id)
         try:
@@ -102,3 +102,17 @@ def memberPassword(request):
     print(test)
     print(oldPasswd)
     return JsonResponse({"ret": "ret"})
+
+
+def memberEdit(request):
+    if request.method == 'GET':
+        id = request.GET.get("id")
+        field = request.GET.get("field")
+        value = request.GET.get("value")
+        user = User.objects.get(id=id)
+        setattr(user, field, value)
+        user.save()
+        print(field)
+        return JsonResponse({"ret": "success"})
+    else:
+        print("修改失败！")

@@ -20,4 +20,5 @@ urlpatterns = [
     path('index/memberEdit', page.memberEdit),
     path('index/memberPassword', page.memberPassword),
     path('index/memberPasswordAction', action.memberPassword),
+    path('index/memberEditAction', action.memberEdit),
 ]
