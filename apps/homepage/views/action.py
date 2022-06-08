@@ -55,7 +55,7 @@ def memberList1(request):
             city = user.city
             school = user.school
             email = user.email
-            status = 1
+            status = user.status
             operation = "TestOperation"
             data_cfg = {
                 'id': _id,

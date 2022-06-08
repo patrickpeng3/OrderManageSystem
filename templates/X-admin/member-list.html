@@ -71,7 +71,11 @@
                             <th lay-data="{field:'city', edit: 'text', minWidth: 100}">城市</th>
                             <th lay-data="{field:'score', sort: true, edit: 'text'}">积分</th>
                             <th lay-data="{field:'school', edit: 'text'}">学校</th>
-                            <th lay-data="{'field':'status', 'toolbar': '#StatusToolBar'}">状态</th>
+                            <th lay-data="{'field':'status',
+{#                            'toolbar': '#StatusToolBar',#}
+                            templet: '#StatusTemplet'}"
+                            >状态
+                            </th>
                             <th lay-data="{'field':'operation', 'toolbar':'#OperationToolBar'}">操作</th>
                         </tr>
                         </thead>
@@ -227,12 +231,20 @@
                     'id': tableRow.data.id
                 },
                 success: function (data) {
+                    var normal = $("#get_status").hasClass("layui-btn-normal");
+                    var danger = $("#get_status").hasClass("layui-btn-danger");
                     if (data.status == 1) {
-                        $("#is_banned").hide();
-                        $("#is_active").show();
+                        $("#get_status").text("已启用");
+                        if (!normal) {
+                            $("#get_status").addClass("layui-btn-normal");
+                            $("#get_status").removeClass("layui-btn-danger");
+                        }
                     } else {
-                        $("#is_active").hide();
-                        $("#is_banned").show();
+                        $("#get_status").text("已禁用");
+                        if (!danger) {
+                            $("#get_status").removeClass("layui-btn-normal");
+                            $("#get_status").addClass("layui-btn-danger");
+                        }
                     }
                 },
                 error: function (data) {
@@ -245,8 +257,13 @@
 
 <!-- 用户状态templet -->
 <script type="text/html" id="StatusTemplet">
-    <span class="layui-btn layui-btn-normal layui-btn-mini" lay-data="/homepage/index/memberList1Action/{{ d.status }}">已启用</span>
-    <span class="layui-btn layui-btn-danger layui-btn-mini">已禁用</span>
+    {% verbatim %}
+    {{#  if(d.status == 1){ }}
+    <span id="get_status" class="layui-btn layui-btn-normal layui-btn-mini" onclick="ChangeStatus(this)">已启用</span>
+    {{#  } else { }}
+    <span id="get_status" class="layui-btn layui-btn-danger layui-btn-mini" onclick="ChangeStatus(this)">已禁用</span>
+    {{#  } }}
+    {% endverbatim %}
 </script>
 <!-- 用户状态toolbar -->
 <script type="text/html" id="StatusToolBar">
