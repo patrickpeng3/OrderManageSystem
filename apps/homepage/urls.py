@@ -8,8 +8,7 @@ urlpatterns = [
     path('index/', page.index),
     path('indexAction/', action.index),
     path('index/memberlist', page.memberList),
-    path('index/memberlist1', page.memberList1),
-    path('index/memberlist1Action', action.memberList1),
+    path('index/memberlistAction', action.memberList),
     path('index/memberdel', page.memberdel),
     path('index/memberdelAction', action.memberdel),
     path('index/welcome1', page.welcome1),
@@ -21,4 +20,5 @@ urlpatterns = [
     path('index/memberPassword', page.memberPassword),
     path('index/memberPasswordAction', action.memberPassword),
     path('index/memberEditAction', action.memberEdit),
+    path('index/memberDelAllAction', action.memberDelAll),
 ]

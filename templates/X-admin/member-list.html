@@ -42,11 +42,13 @@
                         </div>
                         <div class="layui-inline layui-show-xs-block">
                             <input type="text" name="username" placeholder="请输入用户名" autocomplete="off"
+                                   id="sreach_username"
                                    class="layui-input">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
-                            <button class="layui-btn" lay-submit="" lay-filter="sreach"><i
-                                    class="layui-icon">&#xe615;</i></button>
+                            <span class="layui-btn" id="sreach_btn" onclick="sreach_user(this)">
+                                <i class="layui-icon">&#xe615;</i>
+                            </span>
                         </div>
                     </form>
                 </div>
@@ -59,7 +61,7 @@
                 </div>
                 <div class="layui-card-body">
                     <table class="layui-table"
-                           lay-data="{url:'/homepage/index/memberlist1Action',page:true,toolbar: '#toolbarDemo',id:'memberList'}"
+                           lay-data="{url:'/homepage/index/memberlistAction',page:true,toolbar: '#toolbarDemo',id:'memberList'}"
                            lay-filter="memberList">
                         <thead>
                         <tr>
@@ -71,11 +73,7 @@
                             <th lay-data="{field:'city', edit: 'text', minWidth: 100}">城市</th>
                             <th lay-data="{field:'score', sort: true, edit: 'text'}">积分</th>
                             <th lay-data="{field:'school', edit: 'text'}">学校</th>
-                            <th lay-data="{'field':'status',
-{#                            'toolbar': '#StatusToolBar',#}
-                            templet: '#StatusTemplet'}"
-                            >状态
-                            </th>
+                            <th lay-data="{'field':'status', templet: '#StatusTemplet'}">状态</th>
                             <th lay-data="{'field':'operation', 'toolbar':'#OperationToolBar'}">操作</th>
                         </tr>
                         </thead>
@@ -94,9 +92,9 @@
         var table = layui.table;
 
         // 监听全选
-        form.on('checkbox(checkall)', function (data) {
+        form.on('checkbox(checkall)', function (checked_form) {
 
-            if (data.elem.checked) {
+            if (checked_form.elem.checked) {
                 $('tbody input').prop('checked', true);
             } else {
                 $('tbody input').prop('checked', false);
@@ -110,8 +108,6 @@
                 var value = obj.value, //得到修改后的值
                     rowData = obj.data, //得到所在行所有键值
                     field = obj.field; //得到字段
-                {#f = '"' + field + '"',#}
-                {#v = '"' + value + '"';#}
                 $.ajax({
                     type: "get",
                     dataType: "json",
@@ -142,34 +138,8 @@
             elem: '#end' //指定元素
         });
 
-        {#table.on('row(memberList)', function (tableRow) {#}
-        {#    alert(tableRow.data['id']);#}
-        //});
     });
 
-    /*用户-停用*/
-    function member_stop(obj, id) {
-        layer.confirm('确认要停用吗？', function (index) {
-
-            if ($(obj).attr('title') == '启用') {
-
-                //发异步把用户状态进行更改
-                $(obj).attr('title', '停用')
-                $(obj).find('i').html('&#xe62f;');
-
-                $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-                layer.msg('已停用!', {icon: 5, time: 1000});
-
-            } else {
-                $(obj).attr('title', '启用')
-                $(obj).find('i').html('&#xe601;');
-
-                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-                layer.msg('已启用!', {icon: 5, time: 1000});
-            }
-
-        });
-    }
 
     /*用户-删除*/
     function member_del(obj) {
@@ -197,25 +167,44 @@
                         alert("Error！");
                     }
                 });
+                location.reload();
             });
         });
     }
 
-
     function delAll(argument) {
         var ids = [];
+        var checkStatus = layui.table.checkStatus('memberList');
+        var checkData = checkStatus.data;
 
-        // 获取选中的id 
-        $('tbody input').each(function (index, el) {
-            if ($(this).prop('checked')) {
-                ids.push($(this).val())
-            }
-        });
+        for (var i = 0; i < checkData.length; i++) {
+            id = checkData[i].id;
+            ids.push(id)
+        }
+        ids = "[" + ids + "]"
 
         layer.confirm('确认要删除吗？' + ids.toString(), function (index) {
-            //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
+            $.ajax({
+                type: "get",
+                dataType: "json",
+                url: "/homepage/index/memberDelAllAction",
+                data: {
+                    "ids": ids
+                },
+                success: function (data) {
+                    if (data.ret == "success") {
+                        //捉到所有被选中的，发异步进行删除
+                        layer.msg('删除成功', {icon: 1});
+                        $(".layui-form-checked").not('.header').parents('tr').remove();
+                    }else {
+                        layer.msg('删除失败！', {icon: 2});
+                    }
+                },
+                error: function (data) {
+                    alert("error");
+                }
+            });
+
         });
     }
 
@@ -225,7 +214,7 @@
             $.ajax({
                 type: 'get',
                 dataType: 'json',
-                url: "/homepage/index/memberlist1Action",
+                url: "/homepage/index/memberlistAction",
                 data: {
                     'method': 'getStatus',
                     'id': tableRow.data.id
@@ -250,8 +239,55 @@
                 error: function (data) {
                     alert("error!")
                 }
-            })
-        })
+            });
+        });
+        location.reload();
+    }
+
+
+    function ChangePasswd() {
+        var table = layui.table;
+        table.on('row(memberList)', function (tableRow) {
+            $.ajax({
+                type: 'get',
+                dataType: 'json',
+                url: '/homepage/index/memberPasswordAction',
+                data: {
+                    'id': tableRow.data.id
+                },
+                success: function (data) {
+                    {#alert(data.username);#}
+                    tarurl = "memberPassword?" + data.username
+                    xadmin.open('修改密码', tarurl, 600, 400);
+                },
+                error: function (data) {
+                    alert("error");
+                }
+            });
+        });
+    }
+
+    function sreach_user() {
+        var username = document.getElementById("sreach_username").value;
+        $.ajax({
+            type: "get",
+            dataType: "json",
+            url: "/homepage/index/memberlistAction",
+            data: {
+                "method": "sreachUser",
+                "username": username
+            },
+            success: function (data) {
+                if (data.sreachUser == "failed") {
+                    layer.msg("未找到用户：" + username);
+                } else {
+                    location.reload();
+                }
+            },
+            error: function (data) {
+                alert("error!");
+            }
+        });
     }
 </script>
 
@@ -265,24 +301,9 @@
     {{#  } }}
     {% endverbatim %}
 </script>
-<!-- 用户状态toolbar -->
-<script type="text/html" id="StatusToolBar">
-    <span id="is_active" class="layui-btn layui-btn-normal layui-btn-mini" lay-event="active"
-          onclick="ChangeStatus(this)">已启用</span>
-    <span id="is_banned" class="layui-btn layui-btn-danger layui-btn-mini" lay-event="banned"
-          onclick="ChangeStatus(this)">已禁用</span>
-</script>
 <!-- 用户操作 -->
 <script type="text/html" id="OperationToolBar">
-    {#    <a onclick="member_stop(this,'10001')" href="javascript:;" title="启用">#}
-    {#        <i class="layui-icon">&#xe601;</i>#}
-    {#    </a>#}
-    {#    <a title="编辑" onclick="xadmin.open('编辑','memberEdit',600,400)"#}
-    {#       href="javascript:;">#}
-    {#        <i class="layui-icon">&#xe642;</i>#}
-    {#    </a>#}
-    <a onclick="xadmin.open('修改密码','memberPassword',600,400)" title="修改密码"
-       href="javascript:;">
+    <a onclick="ChangePasswd(this)" title="修改密码" href="javascript:;">
         <i class="layui-icon">&#xe631;</i>
     </a>
     <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">

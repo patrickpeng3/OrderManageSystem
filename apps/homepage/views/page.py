@@ -14,14 +14,9 @@ def index(request):
     return render(request, 'X-admin/index.html')
 
 
-# 会员列表
+# 动态会员列表
 def memberList(request):
     return render(request, "X-admin/member-list.html")
-
-
-# 动态会员列表
-def memberList1(request):
-    return render(request, "X-admin/member-list1.html")
 
 
 # 会员删除
