@@ -35,9 +35,31 @@
             </div>
             <div class="layui-form-item">
                 <label for="L_username" class="layui-form-label">
-                    <span class="x-red">*</span>昵称</label>
+                    <span class="x-red">*</span>用户名</label>
                 <div class="layui-input-inline">
                     <input type="text" id="L_username" name="username" required="" lay-verify="nikename"
+                           autocomplete="off" class="layui-input"></div>
+            </div>
+            <div class="layui-form-item">
+                <label for="L_gender" class="layui-form-label">
+                    </span>性别</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="sex" value="male" title="男" checked>
+                    <input type="radio" name="sex" value="female" title="女">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="L_city" class="layui-form-label">
+                    </span>城市</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="L_city" name="usercity" required="" lay-verify="userCity"
+                           autocomplete="off" class="layui-input"></div>
+            </div>
+            <div class="layui-form-item">
+                <label for="L_school" class="layui-form-label">
+                    </span>学校</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="L_school" name="userschool" required="" lay-verify="userSchool"
                            autocomplete="off" class="layui-input"></div>
             </div>
             <div class="layui-form-item">
@@ -86,10 +108,14 @@
         //监听提交
         form.on('submit(add)',
             function (data) {
-                var L_email = document.getElementById("L_email").value;
-                var L_username = document.getElementById("L_username").value;
-                var L_pass = document.getElementById("L_pass").value;
-                var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+                var L_email = document.getElementById("L_email").value,
+                    L_username = document.getElementById("L_username").value,
+                    L_pass = document.getElementById("L_pass").value,
+                    L_city = document.getElementById("L_city").value,
+                    L_school = document.getElementById("L_school").value,
+                    L_gender = $('input[name="sex"]:checked').val(),
+                    csrf = $('input[name="csrfmiddlewaretoken"]').val();
+
                 $.ajax({
                     type: "post",
                     dataType: "json",
@@ -100,6 +126,9 @@
                         "L_email": L_email,
                         "L_username": L_username,
                         "L_pass": L_pass,
+                        "L_school": L_school,
+                        "L_city": L_city,
+                        "L_gender": L_gender
                     },
                     success: function (data) {
                         if (data.ret == "success") {

@@ -55,7 +55,7 @@
                 <div class="layui-card-header">
                     <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除
                     </button>
-                    <button class="layui-btn" onclick="xadmin.open('添加用户','memberAdd',600,400)"><i
+                    <button class="layui-btn" onclick="xadmin.open('添加用户','memberAdd',600,500)"><i
                             class="layui-icon"></i>添加
                     </button>
                 </div>
@@ -138,6 +138,25 @@
             elem: '#end' //指定元素
         });
 
+        //监听性别选择开关
+        form.on('switch(genderSwitch)', function (sexData){
+            var userId = sexData.value;
+            $.ajax({
+                type: "get",
+                dataType: "json",
+                url: "/homepage/index/genderChangeAction",
+                data: {
+                    "id": userId
+                },
+                success: function (data){
+
+                },
+                error: function (data){
+                    alert("error")
+                }
+            })
+        });
+
     });
 
 
@@ -196,7 +215,7 @@
                         //捉到所有被选中的，发异步进行删除
                         layer.msg('删除成功', {icon: 1});
                         $(".layui-form-checked").not('.header').parents('tr').remove();
-                    }else {
+                    } else {
                         layer.msg('删除失败！', {icon: 2});
                     }
                 },
@@ -312,6 +331,16 @@
 </script>
 <!-- 用户性别选择 -->
 <script type="text/html" id="switchTpl">
-    <input type="checkbox" name="sex" value="{{ d.id }}" lay-skin="switch" lay-text="女|男" lay-filter="sexDemo">
+    {#    {% verbatim %}#}
+    {#    {{#  if(d.sex == "female"){ }}#}
+    {#    <input type="checkbox" name="sex" value="{{ d.gender }}" lay-skin="switch" lay-text="女|男" lay-filter="genderSwitch" checked>#}
+    {#    {{#  } else { }}#}
+    {#    <input type="checkbox" name="sex" value="{{ d.gender }}" lay-skin="switch" lay-text="女|男" lay-filter="genderSwitch">#}
+    {#    {{#  } }}#}
+    {#    {% endverbatim %}#}
+    {% verbatim %}
+    <input type="checkbox" name="memberGender" value="{{ d.id }}" lay-skin="switch" lay-text="女|男"
+           lay-filter="genderSwitch" {{ d.sex== "female" ? 'checked':''}}>
+    {% endverbatim %}
 </script>
 </html>

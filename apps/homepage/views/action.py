@@ -116,9 +116,11 @@ def memberAdd(request):
         username = request.POST.get("L_username")
         email = request.POST.get("L_email")
         passwd = request.POST.get("L_pass")
-        print(username)
+        city = request.POST.get("L_city")
+        school = request.POST.get("L_school")
+        gender = request.POST.get("L_gender")
         try:
-            User.objects.create_user(username=username, email=email, password=passwd)
+            User.objects.create_user(username=username, email=email, password=passwd, city=city, school=school, gender=gender)
             return JsonResponse({"ret": "success"})
         except Exception:
             print("创建用户失败！")
@@ -171,3 +173,20 @@ def memberDelAll(request):
             return JsonResponse({"ret": "success"})
         except Exception:
             return JsonResponse({"ret": "failed"})
+
+
+def genderChange(request):
+    if request.method == "GET":
+        id = request.GET.get("id")
+        try:
+            user = User.objects.get(id=id)
+            userGender = user.gender
+            if userGender == "female":
+                user.gender = "male"
+                user.save()
+            else:
+                user.gender = "female"
+                user.save()
+        except Exception:
+            print("修改用户{}性别失败！".format(id))
+        return JsonResponse({"ret": "success"})
