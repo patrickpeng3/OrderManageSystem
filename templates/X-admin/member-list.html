@@ -42,11 +42,11 @@
                         </div>
                         <div class="layui-inline layui-show-xs-block">
                             <input type="text" name="username" placeholder="请输入用户名" autocomplete="off"
-                                   id="sreach_username"
+                                   id="search_username"
                                    class="layui-input">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
-                            <span class="layui-btn" id="sreach_btn" onclick="sreach_user(this)">
+                            <span class="layui-btn" id="search_btn" data-type="reload">
                                 <i class="layui-icon">&#xe615;</i>
                             </span>
                         </div>
@@ -102,6 +102,26 @@
             form.render('checkbox');
         });
 
+        var active = {
+            reload: function () {
+                var username = $('#search_username').val();
+                table.reload('memberList', {
+                    page: {
+                        curr: 1
+                    },
+                    where: {
+                        "username": username,
+                        "method": "searchUser"
+                    }
+                });
+            }
+        };
+
+        $('#search_btn').on('click', function (){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
         //监听单元格编辑
         table.on('edit(memberList)',
             function (obj) {
@@ -139,7 +159,7 @@
         });
 
         //监听性别选择开关
-        form.on('switch(genderSwitch)', function (sexData){
+        form.on('switch(genderSwitch)', function (sexData) {
             var userId = sexData.value;
             $.ajax({
                 type: "get",
@@ -148,10 +168,10 @@
                 data: {
                     "id": userId
                 },
-                success: function (data){
+                success: function (data) {
 
                 },
-                error: function (data){
+                error: function (data) {
                     alert("error")
                 }
             })
@@ -286,28 +306,28 @@
         });
     }
 
-    function sreach_user() {
-        var username = document.getElementById("sreach_username").value;
-        $.ajax({
-            type: "get",
-            dataType: "json",
-            url: "/homepage/index/memberlistAction",
-            data: {
-                "method": "sreachUser",
-                "username": username
-            },
-            success: function (data) {
-                if (data.sreachUser == "failed") {
-                    layer.msg("未找到用户：" + username);
-                } else {
-                    location.reload();
-                }
-            },
-            error: function (data) {
-                alert("error!");
-            }
-        });
-    }
+    {#function search_user() {#}
+    {#    var username = document.getElementById("search_username").value;#}
+    {#    $.ajax({#}
+    {#        type: "get",#}
+    {#        dataType: "json",#}
+    {#        url: "/homepage/index/memberlistAction",#}
+    {#        data: {#}
+    {#            "method": "searchUser",#}
+    {#            "username": username#}
+    {#        },#}
+    {#        success: function (data) {#}
+    {#            if (data.searchUser == "failed") {#}
+    {#                layer.msg("未找到用户：" + username);#}
+    {#            } else {#}
+    {#                location.reload();#}
+    {#            }#}
+    {#        },#}
+    {#        error: function (data) {#}
+    {#            alert("error!");#}
+    {#        }#}
+    {#    });#}
+    //#}
 </script>
 
 <!-- 用户状态templet -->
@@ -331,13 +351,6 @@
 </script>
 <!-- 用户性别选择 -->
 <script type="text/html" id="switchTpl">
-    {#    {% verbatim %}#}
-    {#    {{#  if(d.sex == "female"){ }}#}
-    {#    <input type="checkbox" name="sex" value="{{ d.gender }}" lay-skin="switch" lay-text="女|男" lay-filter="genderSwitch" checked>#}
-    {#    {{#  } else { }}#}
-    {#    <input type="checkbox" name="sex" value="{{ d.gender }}" lay-skin="switch" lay-text="女|男" lay-filter="genderSwitch">#}
-    {#    {{#  } }}#}
-    {#    {% endverbatim %}#}
     {% verbatim %}
     <input type="checkbox" name="memberGender" value="{{ d.id }}" lay-skin="switch" lay-text="女|男"
            lay-filter="genderSwitch" {{ d.sex== "female" ? 'checked':''}}>

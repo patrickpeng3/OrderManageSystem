@@ -44,13 +44,11 @@ def memberList(request):
                 user.status = 1
             user.save()
             return JsonResponse({'status': user.status})
-        elif request.GET.get("method") == "sreachUser":
+        elif request.GET.get("method") == "searchUser" and request.GET.get("username"):
+            user_list, data_list = [[] for i in range(2)]
             try:
-                username = request.GET.get("username")
-                user_list = []
-                user = User.objects.get(username=username)
+                user = User.objects.get(username=request.GET.get("username"))
                 user_list.append(user)
-                data_list = []
                 data_cfg = {
                     'id': user.id,
                     'username': user.username,
@@ -60,6 +58,7 @@ def memberList(request):
                     'score': user.score,
                     'school': user.school,
                     'status': user.status,
+                    # 'operation': "operation",
                 }
                 data_list.append(data_cfg)
                 jsonData = {
@@ -68,10 +67,11 @@ def memberList(request):
                     "count": len(user_list),
                     "data": data_list
                 }
-                print(jsonData)
                 return JsonResponse(jsonData)
             except Exception:
-                return JsonResponse({"sreachUser": "failed"})
+                return JsonResponse({
+                    "code": 0
+                })
         else:
             user_list = User.objects.all()
             data_list = []
@@ -95,7 +95,6 @@ def memberList(request):
                 "count": len(user_list),
                 "data": data_list
             }
-            # print(jsonData)
             return JsonResponse(jsonData)
 
 
@@ -120,7 +119,8 @@ def memberAdd(request):
         school = request.POST.get("L_school")
         gender = request.POST.get("L_gender")
         try:
-            User.objects.create_user(username=username, email=email, password=passwd, city=city, school=school, gender=gender)
+            User.objects.create_user(username=username, email=email, password=passwd, city=city, school=school,
+                                     gender=gender)
             return JsonResponse({"ret": "success"})
         except Exception:
             print("创建用户失败！")
