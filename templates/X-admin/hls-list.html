@@ -33,6 +33,16 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body ">
+                    <div class="layui-inline layui-show-xs-block">
+                        <input type="text" name="username" placeholder="请输入游服id" autocomplete="off"
+                               id="search_username"
+                               class="layui-input">
+                    </div>
+                    <div class="layui-inline layui-show-xs-block">
+                            <span class="layui-btn" id="search_btn" data-type="reload">
+                                <i class="layui-icon">&#xe615;</i>
+                            </span>
+                    </div>
                     <button class="layui-btn layui-btn-normal" type="submit" onclick="newGameServer(this)">搭服</button>
                     <button class="layui-btn layui-btn-danger" type="submit" onclick="newGameServer(this)">删服</button>
                     <button class="layui-btn layui-btn-normal" type="submit" onclick="newGameServer(this)">更新</button>
