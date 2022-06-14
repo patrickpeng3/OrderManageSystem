@@ -2,5 +2,5 @@ from django.shortcuts import render
 
 
 # Create your views here.
-def test(request):
+def server_list(request):
     return render(request, "X-admin/hls-list.html")

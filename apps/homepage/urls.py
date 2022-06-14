@@ -1,7 +1,8 @@
 from django.urls import path
 from .views import page
 from .views import action
-from apps.hls import views as hls_views
+from apps.hls.views import page as hls_page
+from apps.hls.views import action as hls_action
 
 urlpatterns = [
     path('login/', page.login),
@@ -23,5 +24,6 @@ urlpatterns = [
     path('index/memberEditAction', action.memberEdit),
     path('index/memberDelAllAction', action.memberDelAll),
     path('index/genderChangeAction', action.genderChange),
-    path('index/hls', hls_views.test),
+    path('index/hls', hls_page.server_list),
+    path('index/hls_action', hls_action.server_list_action),
 ]

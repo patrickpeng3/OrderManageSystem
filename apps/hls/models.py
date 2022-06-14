@@ -4,7 +4,7 @@ from datetime import datetime
 # Create your models here.
 
 
-class servers(models.Model):
+class Servers(models.Model):
     """
     服务器列表
     """
@@ -12,17 +12,18 @@ class servers(models.Model):
     server_id = models.IntegerField("游服id")
     special_server = models.CharField("专服", max_length=10)
     salt_id = models.CharField("saltid", max_length=16)
-    status = models.IntegerField("状态")
-    version = models.CharField("后端版本", max_length=20)
-    server_host = models.CharField("公网IP", max_length=20)
-    private_host = models.CharField("内网IP", max_length=20)
-    ws_server_port = models.IntegerField("ws端口号")
-    web_port = models.IntegerField("web端口号")
-    fep_client_port = models.IntegerField("fep端口号")
-    dp_server_port = models.IntegerField("dp端口号")
-    nginx_port = models.IntegerField("nginx端口号")
-    clb = models.CharField("负载均衡名", max_length=20)
-    born_time = models.DateTimeField("开服时间", default=0)
+    status = models.IntegerField("状态", null=True, blank=True)
+    version = models.CharField("后端版本", max_length=20, null=True, blank=True)
+    server_host = models.CharField("公网IP", max_length=20, null=True, blank=True)
+    private_host = models.CharField("内网IP", max_length=20, null=True, blank=True)
+    ws_server_port = models.IntegerField("ws端口号", null=True, blank=True)
+    web_port = models.IntegerField("web端口号", null=True, blank=True)
+    fep_client_port = models.IntegerField("fep_client端口号", null=True, blank=True)
+    fep_server_port = models.IntegerField("fep_server端口号", null=True, blank=True)
+    dp_server_port = models.IntegerField("dp端口号", null=True, blank=True)
+    nginx_port = models.IntegerField("nginx端口号", null=True, blank=True)
+    clb = models.CharField("负载均衡名", max_length=20, null=True, blank=True)
+    born_time = models.CharField("开服时间", max_length=20, default=0)
     create_time = models.DateTimeField("创服时间", default=datetime.now)
 
     class Meta:
@@ -31,7 +32,7 @@ class servers(models.Model):
         ordering = ['id']
 
 
-class machine(models.Model):
+class Machine(models.Model):
     """
     服务器列表
     """
@@ -52,7 +53,7 @@ class machine(models.Model):
         ordering = ['id']
 
 
-class special(models.Model):
+class Special(models.Model):
     """
     专服列表
     """
