@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'users',
     'apps.hls',
     'zabbix',
+    'job_manager',
 ]
 
 MIDDLEWARE = [
