@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'apps.homepage',
     'apps.users',
     'apps.hls',
+    'apps.zabbix',
 ]
 
 MIDDLEWARE = [

@@ -306,28 +306,6 @@
         });
     }
 
-    {#function search_user() {#}
-    {#    var username = document.getElementById("search_username").value;#}
-    {#    $.ajax({#}
-    {#        type: "get",#}
-    {#        dataType: "json",#}
-    {#        url: "/homepage/index/memberlistAction",#}
-    {#        data: {#}
-    {#            "method": "searchUser",#}
-    {#            "username": username#}
-    {#        },#}
-    {#        success: function (data) {#}
-    {#            if (data.searchUser == "failed") {#}
-    {#                layer.msg("未找到用户：" + username);#}
-    {#            } else {#}
-    {#                location.reload();#}
-    {#            }#}
-    {#        },#}
-    {#        error: function (data) {#}
-    {#            alert("error!");#}
-    {#        }#}
-    {#    });#}
-    //#}
 </script>
 
 <!-- 用户状态templet -->

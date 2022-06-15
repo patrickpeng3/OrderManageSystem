@@ -4,6 +4,8 @@ from django.http import JsonResponse
 # from models import *
 from rest_framework.response import Response
 from apps.hls.models import Servers
+import subprocess
+from config.project.tools import get_config_base
 
 
 # Create your views here.
@@ -30,3 +32,11 @@ def server_list_action(request):
     }
     return JsonResponse(jsonData)
 
+
+def create_game(request):
+    if request.method == "POST":
+        special = request.POST.get("L_special")
+        number = request.POST.get("L_num")
+        cmd = get_config_base("hls", "master", "create_game").format(server_id=special, salt_id=number)
+        ret = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8")
+        return JsonResponse({"ret": "success"})
