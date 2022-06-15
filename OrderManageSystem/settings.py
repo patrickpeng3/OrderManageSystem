@@ -15,6 +15,8 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+CONFIG_BASE_DIR = os.path.join(BASE_DIR, 'config')  # 配置基本路径
+SCRIPT_BASE_DIR = os.path.join(BASE_DIR, 'scripts')  # 脚本基本路径
 
 
 # Quick-start development settings - unsuitable for production
@@ -38,10 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.homepage',
-    'apps.users',
+    'homepage',
+    'users',
     'apps.hls',
-    'apps.zabbix',
+    'zabbix',
 ]
 
 MIDDLEWARE = [

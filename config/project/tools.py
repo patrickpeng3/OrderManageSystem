@@ -16,7 +16,6 @@ def get_config_base(witch, section, option, name='config.ini'):
     src = os.path.join(BASE_DIR, 'project', witch, name)
     config = configparser.RawConfigParser()
     config.read(src)
-    print(src)
     return config.get(section=section, option=option)
 
 
