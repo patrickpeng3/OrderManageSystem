@@ -1,7 +1,0 @@
-*/1 * * * * /usr/local/qcloud/stargate/admin/start.sh > /dev/null 2>&1 &
-0 0 * * * /usr/local/qcloud/YunJing/YDCrontab.sh > /dev/null 2>&1 &
-#*/3 * * * * bash /data/mon/pro_check.sh  > /dev/null 2>&1 &
-#*/1 * * * * bash /data/mon/pro_php_check.sh  > /dev/null 2>&1 &
-
-
-* 4 * * * /usr/bin/python3 /data/mon/MvLog.py hls
