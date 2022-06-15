@@ -24,6 +24,7 @@ urlpatterns = [
     path('index/memberEditAction', action.memberEdit),
     path('index/memberDelAllAction', action.memberDelAll),
     path('index/genderChangeAction', action.genderChange),
+
     path('index/hls', hls_page.server_list),
     path('index/hls_action', hls_action.server_list_action),
     path('index/hls_create', hls_page.create_game),

@@ -38,5 +38,6 @@ def create_game(request):
         special = request.POST.get("L_special")
         number = request.POST.get("L_num")
         cmd = get_config_base("hls", "master", "create_game").format(server_id=special, salt_id=number)
-        ret = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8")
+        print(cmd)
+        # ret = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8")
         return JsonResponse({"ret": "success"})
