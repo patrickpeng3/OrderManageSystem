@@ -5,6 +5,8 @@ from apps.hls.views import page as hls_page
 from apps.hls.views import action as hls_action
 from users.views import action as users_action
 from users.views import page as users_page
+from zabbix.views import page as zabbix_page
+from zabbix.views import action as zabbix_action
 
 urlpatterns = [
     path('login/', page.login),
@@ -32,4 +34,8 @@ urlpatterns = [
     path('index/hls_action', hls_action.server_list_action),
     path('index/hls_create', hls_page.create_game),
     path('index/hls_create_action', hls_action.create_game),
+    path('index/hls_log', hls_page.game_log),
+
+    path('index/zabbix_host_list', zabbix_page.host_list),
+    path('index/zabbix_host_list_action', zabbix_action.zabbix_tools.user_login),
 ]
