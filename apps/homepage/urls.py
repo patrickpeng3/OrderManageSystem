@@ -37,5 +37,5 @@ urlpatterns = [
     path('index/hls_log', hls_page.game_log),
 
     path('index/zabbix_host_list', zabbix_page.host_list),
-    path('index/zabbix_host_list_action', zabbix_action.zabbix_tools.user_login),
+    path('index/zabbix_host_list_action', zabbix_action.user_login),
 ]

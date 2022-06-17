@@ -2,8 +2,9 @@ from urllib.error import URLError
 
 from django.contrib.auth.decorators import login_required
 import json
-import urllib
+import urllib.request
 import sys
+from django.http import JsonResponse, HttpResponse
 
 # Create your views here.
 
@@ -23,34 +24,23 @@ def host_group(request):
     select = request.GET.get("select")
 
 
-class zabbix_tools:
-    def __init__(self):
-        self.url = "http://company.com/zabbix/api_jsonrpc.php HTTP/1.1"
-        self.header = {
-            "Content-Type": "application/json-rpc"
-        }
-        self.authID = self.user_login()
-
-    def user_login(self):
-        data = json.dumps({
+def user_login(request):
+    url = "http://XXXXX/zabbix/api_jsonrpc.php"
+    header = {
+        "Content-Type": "application/json-rpc"
+    }
+    data = json.dumps({
             "jsonrpc": "2.0",
             "method": "user.login",
-            # "method": "apiinfo.version",
             "params": {
-                "user": "pengguanghong",
-                "password": "pengguanghong"
+                "user": "XXXX",
+                "password": "XXXX"
             },
-            "id": 1
-        })
-        Request = urllib.request(self.url, data)
-        for key in self.header:
-            Request.add_header(key, self.header[key])
-        try:
-            result = urllib.request.urlopen(Request)
-        except URLError as e:
-            print("Auth Failed, Please Check Your Name And Password:", e.code)
-        else:
-            response = json.loads(Request.read())
-            result.close()
-            authID = response['result']
-            return authID
+            "id": 2
+    }).encode("utf-8")
+    req = urllib.request.Request(url, data=data, headers=header)
+    res = urllib.request.urlopen(req)
+    ret = json.loads(res.read().decode("utf-8"))
+    authID = ret["result"]
+    print(authID)
+    return HttpResponse(res.status)
