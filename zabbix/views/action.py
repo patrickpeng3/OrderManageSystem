@@ -5,6 +5,8 @@ import json
 import urllib.request
 import sys
 from django.http import JsonResponse, HttpResponse
+from ..tools.base import *
+
 
 # Create your views here.
 
@@ -14,33 +16,24 @@ from django.http import JsonResponse, HttpResponse
 """
 
 
-@login_required
-def host_group(request):
-    """
-    zabbix主机群
-    :param request:
-    :return:
-    """
-    select = request.GET.get("select")
-
-
-def user_login(request):
-    url = "http://XXXXX/zabbix/api_jsonrpc.php"
-    header = {
-        "Content-Type": "application/json-rpc"
-    }
+def get_host(request):
+    hostgroup_ret = get_hostgroup()
+    hostgroup_list = hostgroup_ret[1]
+    for hostgroup in hostgroup_list:
+        if hostgroup["name"] == "唤灵师-游戏服":
+            groupid = hostgroup["groupid"]
     data = json.dumps({
-            "jsonrpc": "2.0",
-            "method": "user.login",
-            "params": {
-                "user": "XXXX",
-                "password": "XXXX"
-            },
-            "id": 2
+        "jsonrpc": "2.0",
+        "method": "host.get",
+        "params": {
+            "output": ["hostid", "name"],
+            "groupids": groupid
+        },
+        "auth": hostgroup_ret[2],
+        "id": 2
     }).encode("utf-8")
-    req = urllib.request.Request(url, data=data, headers=header)
+    req = urllib.request.Request(zabbix_url, data=data, headers=zabbix_header)
     res = urllib.request.urlopen(req)
     ret = json.loads(res.read().decode("utf-8"))
-    authID = ret["result"]
-    print(authID)
+    print(ret)
     return HttpResponse(res.status)

@@ -92,13 +92,7 @@
             type: "get",
             dataType: "json",
             url: "/homepage/index/zabbix_host_list_action",
-            data: {
-                "test": "test"
-            },
-            success: function (data){
-                alert("success");
-            },
-            error: function (data){
+            error: function (data) {
                 alert("error");
             }
         })
