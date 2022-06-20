@@ -14,8 +14,8 @@ def get_authID():
         "jsonrpc": "2.0",
         "method": "user.login",
         "params": {
-            "user": "XXXX",
-            "password": "XXXX"
+            "user": "XXX",
+            "password": "XXX"
         },
         "id": 2
     }).encode("utf-8")
@@ -23,21 +23,5 @@ def get_authID():
     res = urllib.request.urlopen(req)
     ret = json.loads(res.read().decode("utf-8"))
     authID = ret["result"]
-    return res.status, authID
+    return authID
 
-
-def get_hostgroup():
-    authID = get_authID()[1]
-    data = json.dumps({
-        "jsonrpc": "2.0",
-        "method": "hostgroup.get",
-        "params": {
-            "output": ["name"],
-        },
-        "auth": authID,
-        "id": 2
-    }).encode("utf-8")
-    req = urllib.request.Request(zabbix_url, data=data, headers=zabbix_header)
-    res = urllib.request.urlopen(req)
-    ret = json.loads(res.read().decode("utf-8"))
-    return res.status, ret["result"], authID

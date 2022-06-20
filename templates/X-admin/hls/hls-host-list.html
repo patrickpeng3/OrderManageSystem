@@ -43,22 +43,24 @@
                                 <i class="layui-icon">&#xe615;</i>
                             </span>
                     </div>
-                    <button class="layui-btn layui-btn-normal" type="button" onclick="newGameServer(this)">增加</button>
-                    <button class="layui-btn layui-btn-danger" type="button" onclick="newGameServer(this)">批量删除</button>
+                    <button class="layui-btn layui-btn-normal" type="button" onclick="getZabbixHosts(this)">增加</button>
+                    <button class="layui-btn layui-btn-danger" type="button" onclick="getZabbixHosts(this)">批量删除
+                    </button>
                 </div>
                 <div class="layui-card-body ">
                     <div class="layui-card-body">
                         <table class="layui-table"
-                               lay-data="{url:'/homepage/index/hls_action',page:true,toolbar: '#toolbarDemo',id:'memberList'}"
+                               lay-data="{url:'/homepage/index/zabbix_host_list_action',page:true,toolbar: '#toolbarDemo',id:'memberList'}"
                                lay-filter="memberList">
                             <thead>
                             <tr>
                                 <th lay-data="{type:'checkbox'}">ID</th>
-                                <th lay-data="{field:'server_id', width:250, sort: true}">服务名</th>
-                                <th lay-data="{field:'special_server', minWidth: 150}">专服</th>
-                                <th lay-data="{field:'salt_id', minWidth:100}">服务器</th>
-                                <th lay-data="{field:'server_host', minWidth: 100}">公网IP</th>
-                                <th lay-data="{'field':'operation', 'toolbar':'#OperationToolBar', width: 250}">操作</th>
+                                <th lay-data="{field:'hostid', width:250, sort: true}">主机ID</th>
+                                <th lay-data="{field:'name', width:250}">主机名</th>
+{#                                <th lay-data="{field:'special_server', minWidth: 150}">专服</th>#}
+{#                                <th lay-data="{field:'salt_id', minWidth:100}">服务器</th>#}
+{#                                <th lay-data="{field:'server_host', minWidth: 100}">公网IP</th>#}
+{#                                <th lay-data="{'field':'operation', 'toolbar':'#OperationToolBar', width: 250}">操作</th>#}
                             </tr>
                             </thead>
                         </table>
@@ -86,17 +88,24 @@
         });
     });
 
-    function newGameServer() {
+    {#function getZabbixHosts() {#}
         {#xadmin.open('创服', "hls_create", 600, 300);#}
-        $.ajax({
-            type: "get",
-            dataType: "json",
-            url: "/homepage/index/zabbix_host_list_action",
-            error: function (data) {
-                alert("error");
-            }
-        })
-    }
+    {#    $.ajax({#}
+    {#        type: "get",#}
+    {#        dataType: "json",#}
+    {#        url: "/homepage/index/zabbix_host_list_action",#}
+    {#        success: function (data) {#}
+    {#            if (data) {#}
+    {#                console.log("获取登录信息成功！")#}
+    {#            } else {#}
+    {#                alert("获取登录信息失败！");#}
+    {#            }#}
+    {#        },#}
+    {#        error: function (data) {#}
+    {#            alert("error！");#}
+    {#        }#}
+    {#    })#}
+//    }
 </script>
 <!-- 用户操作 -->
 <script type="text/html" id="OperationToolBar">
