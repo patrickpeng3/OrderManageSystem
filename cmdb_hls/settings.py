@@ -84,10 +84,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'cmdb_hls',
-        'HOST': '192.168.204.154',
+        'HOST': '175.178.121.39',
         'PORT': '3306',
         'USER': 'root',
-        'PASSWORD': 'Pgh830019.',
+        'PASSWORD': 'dkmwebmysql!q$EWQ23FD23',
     }
 }
 

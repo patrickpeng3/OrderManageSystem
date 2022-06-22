@@ -4,14 +4,12 @@ cd /data/apps/cmdb_py3/ && /data/apps/cmdb_py3_env/bin/celery worker -A celery_t
 
 cd /data/apps/cmdb_py3/ && /data/apps/cmdb_py3_env/bin/celery  worker -A  celery_task.celery_app -l info -E --logfile=/tmp/celerylog.log --pidfile=/tmp/celerypid.pid
 """
-# import sys
 
-# sys.path.append('/data/apps/cmdb_py3/')
 import os
 from celery.task import Task
 from celery import Celery, platforms
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "setting")  # project_name 项目名称
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "cmdb_hls.settings")  # project_name 项目名称
 
 platforms.C_FORCE_ROOT = True
 # 创建实例
