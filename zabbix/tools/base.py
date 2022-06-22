@@ -14,8 +14,8 @@ def get_authID():
         "jsonrpc": "2.0",
         "method": "user.login",
         "params": {
-            "user": "XXX",
-            "password": "XXX"
+            "user": "pengguanghong",
+            "password": "pengguanghong"
         },
         "id": 2
     }).encode("utf-8")
