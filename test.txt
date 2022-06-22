@@ -2,8 +2,10 @@
 
 3333
 
-1111
+11
 
-222
+git config --global user.name "peng guanghong"
 
-test
+git config --global user.email "pengguanghong@wonderent.net"
+
+
