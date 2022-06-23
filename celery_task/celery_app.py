@@ -1,26 +1,24 @@
-# -*- coding: utf-8 -*-
-"""
-cd /data/apps/cmdb_py3/ && /data/apps/cmdb_py3_env/bin/celery worker -A celery_task.celery_app -l info -E
-
-cd /data/apps/cmdb_py3/ && /data/apps/cmdb_py3_env/bin/celery  worker -A  celery_task.celery_app -l info -E --logfile=/tmp/celerylog.log --pidfile=/tmp/celerypid.pid
-"""
-
+from __future__ import absolute_import, unicode_literals
 import os
-from celery.task import Task
 from celery import Celery, platforms
+from django.conf import settings
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "cmdb_hls.settings")  # project_name 项目名称
 
+# 允许root用户运行celery
 platforms.C_FORCE_ROOT = True
-# 创建实例
-app = Celery()
-# celery配置模块
-app.config_from_object('celery_task.celeryconfig')
-# 自动搜索任务
-app.autodiscover_tasks(["job_manager.packages.easy_tools", "safety.tasks"])
-# app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
-# , "celery_task.tasks"
 
+# 为celery设置环境变量
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cmdb_hls.settings')
+
+# 创建应用
+app = Celery("celery_cmdb")
+
+# 配置应用
+app.config_from_object('celery_task.celeryconfig')
+
+# 自动搜索任务
+app.autodiscover_tasks()
 
 if __name__ == '__main__':
     app.start()
+

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'apps.hls',
     'zabbix',
     'job_manager',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -150,3 +151,5 @@ AUTH_USER_MODEL = 'users.User'
 #     format='%(asctime)s %(levelname)s %(message)s',
 #     filename='/tmp/djangoLog.log',
 # )
+
+
