@@ -7,7 +7,7 @@ from django.conf import settings
 platforms.C_FORCE_ROOT = True
 
 # 为celery设置环境变量
-# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cmdb_hls.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cmdb_hls.settings')
 
 # 创建应用
 app = Celery("celery_cmdb")
