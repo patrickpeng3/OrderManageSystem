@@ -12,6 +12,7 @@ BROKER_URL = "amqp://root:root@localhost:5672/celery_host"
 
 # 存储结果
 CELERY_RESULT_BACKEND = "django-db"
+# CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
 
 # 缓存后端
 CELERY_CACHE_BACKEND = 'django-cache'
