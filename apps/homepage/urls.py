@@ -35,6 +35,8 @@ urlpatterns = [
     path('index/hls_create', hls_page.create_game),
     path('index/hls_create_action', hls_action.create_game),
     path('index/hls_log', hls_page.game_log),
+    path('index/hls_update', hls_page.update_game),
+    path('index/hls_update_action', hls_action.update_game),
 
     path('index/zabbix_host_list', zabbix_page.host_list),
     path('index/zabbix_host_list_action', zabbix_action.get_host),
