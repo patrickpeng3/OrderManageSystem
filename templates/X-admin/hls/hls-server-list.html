@@ -45,7 +45,7 @@
                     </div>
                     <button class="layui-btn layui-btn-normal" type="button" onclick="newGameServer(this)">搭服</button>
                     <button class="layui-btn layui-btn-danger" type="button" onclick="newGameServer(this)">删服</button>
-                    <button class="layui-btn layui-btn-normal" type="button" onclick="newGameServer(this)">更新</button>
+                    <button class="layui-btn layui-btn-normal" type="button" onclick="updateServer(this)">更新</button>
                     <button class="layui-btn " type="submit" onclick="newGameServer(this)">启服</button>
                     <button class="layui-btn layui-btn-warm" type="submit" onclick="newGameServer(this)">停服</button>
                 </div>
@@ -61,6 +61,7 @@
                                 <th lay-data="{field:'special_server', minWidth: 150}">专服</th>
                                 <th lay-data="{field:'salt_id', minWidth:100}">服务器</th>
                                 <th lay-data="{field:'server_host', minWidth: 100}">公网IP</th>
+                                <th lay-data="{field:'backend_version', minWidth: 100}">后端版本</th>
                                 <th lay-data="{'field':'operation', 'toolbar':'#OperationToolBar', width: 250}">操作</th>
                             </tr>
                             </thead>
@@ -91,6 +92,10 @@
 
     function newGameServer() {
         xadmin.open('创服', "hls_create", 600, 300);
+    }
+
+    function updateServer(){
+        xadmin.open("更新", "hls_update", 600, 300)
     }
 </script>
 <!-- 用户操作 -->

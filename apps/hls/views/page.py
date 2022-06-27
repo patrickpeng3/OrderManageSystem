@@ -15,3 +15,8 @@ def create_game(request):
 # 操作日志
 def game_log(request):
     return render(request, "X-admin/hls/hls-log.html")
+
+
+# 更新页面
+def update_game(request):
+    return render(request, "X-admin/hls/hls_update_game.html")

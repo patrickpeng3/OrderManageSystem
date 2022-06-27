@@ -3,7 +3,7 @@ import json
 import urllib.request
 import sys
 from django.http import JsonResponse, HttpResponse
-from config.project.tools import get_config_base
+from config.project.get_config import get_config_base
 
 zabbix_url = get_config_base("zabbix", "base", "url")
 zabbix_header = json.loads(get_config_base("zabbix", "base", "header"))
