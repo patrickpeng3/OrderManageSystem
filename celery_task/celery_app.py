@@ -13,7 +13,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cmdb_hls.settings')
 app = Celery("celery_cmdb")
 
 # 配置应用
-app.config_from_object('celery_task.celeryconfig')
+app.config_from_object('celery_task.celery_config')
 
 # 自动搜索任务
 app.autodiscover_tasks()
