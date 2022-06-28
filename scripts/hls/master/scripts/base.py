@@ -17,10 +17,12 @@ import time
 
 # 自定义模块
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from ..tool.run_cmd.shell_cmd import shell_run
-from ..tool.db.mysql_manage import MysqlManage
-from ..tool.runlog.runlog import log
-
+# from ..tool.run_cmd.shell_cmd import shell_run
+# from ..tool.db.mysql_manage import MysqlManage
+# from ..tool.runlog.runlog import log
+from scripts.hls.master.tool.run_cmd.shell_cmd import shell_run
+from scripts.hls.master.tool.db.mysql_manage import MysqlManage
+from scripts.hls.master.tool.runlog.runlog import log
 
 # saltid
 salt_name = 'sg-gs-'
