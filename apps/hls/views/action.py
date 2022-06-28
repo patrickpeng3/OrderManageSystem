@@ -2,6 +2,7 @@ from django.http import JsonResponse
 # from models import *
 from apps.hls.models import Servers
 from apps.hls.packages.server import get_cmd
+from apps.hls.packages.server.action_entry import update_entry
 from job_manager.packages.easy_tools import job_start_before, task_runner_celery
 
 
@@ -45,5 +46,6 @@ def update_game(request):
         version = request.POST.get("L_version")
         cmd_list = []
         get_cmd.update_game(server_id, version, cmd_list)
-        job_task, job_cmds = job_start_before("更新", "pengguanghong", update_game, cmd_list)
-        return task_runner_celery(job_task, job_cmds)
+        username = request.user.username
+        update_entry(username, cmd_list)
+        return JsonResponse({"ret": "success"})
