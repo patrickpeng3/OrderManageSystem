@@ -23,9 +23,10 @@ from base import *
 
 # 自定义模块
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from ..tool.db.mysql_manage import MysqlManage
-from ..tool.runlog.runlog import log
-from ..tool.run_cmd.salt_async import SaltAsync
+# from ..tool.db.mysql_manage import MysqlManage
+from scripts.hls.master.tool.db.mysql_manage import MysqlManage
+from scripts.hls.master.tool.runlog.runlog import log
+from scripts.hls.master.tool.run_cmd.salt_async import SaltAsync
 
 
 class GameManage(object):
