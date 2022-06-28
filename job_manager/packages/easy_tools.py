@@ -210,7 +210,7 @@ def job_cmd_run(job_cmd_info, target=None):
 
 
 # ------------------------------------------celery任务-----------------------------------------------
-@app.task()
+@app.task
 def task_runner_celery(job_task, job_cmd_infos, serial=None):
     """
     :param job_task: 任务队列模型
@@ -235,11 +235,11 @@ def task_runner_celery(job_task, job_cmd_infos, serial=None):
         job_task_interrupt(job_task, error)
         status = "error"
     finally:
-        async_runner.delay(job_task_confirm, job_task)
+        # async_runner.delay(job_task_confirm, job_task)
         return status
 
 
-@app.task()
+@app.task
 def async_runner(async_fun, *args, **kwargs):
     """
     异步任务
