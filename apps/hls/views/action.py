@@ -2,7 +2,7 @@ from django.http import JsonResponse
 # from models import *
 from apps.hls.models import Servers
 from apps.hls.packages.server import get_cmd
-from job_manager.packages.easy_tools import job_start_before
+from job_manager.packages.easy_tools import job_start_before, task_runner_celery
 
 
 # Create your views here.
@@ -46,9 +46,4 @@ def update_game(request):
         cmd_list = []
         get_cmd.update_game(server_id, version, cmd_list)
         job_task, job_cmds = job_start_before("更新", "pengguanghong", update_game, cmd_list)
-        print("job_task:{}".format(job_task))
-        print("job_cmds:{}".format(job_cmds))
-        for job_cmd in job_cmds:
-            cmd = job_cmd["model"].cmd
-            print("CMD:{}".format(cmd))
-        return JsonResponse({"ret": "success"})
+        return task_runner_celery(job_task, job_cmds)
