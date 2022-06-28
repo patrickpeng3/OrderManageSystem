@@ -8,5 +8,5 @@ def update_entry(username, cmd_list):
     :param cmd_list: 任务命令列表
     :return:
     """
-    job_task, job_cmds = job_start_before("更新", "pengguanghong", update_entry, cmd_list)
-    return task_runner_celery(job_task, job_cmds)
+    job_task, job_cmds = job_start_before("更新", username, update_entry, cmd_list)
+    return task_runner_celery.delay(job_task, job_cmds)
