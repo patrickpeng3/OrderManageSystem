@@ -158,10 +158,10 @@ if not os.path.exists(LOGGING_DIR):
     os.makedirs(LOGGING_DIR)
 
 LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,  # 是否禁用logger
+    'version': 1,
+    'disable_existing_loggers': False,  # 是否禁用logger
     # 日志格式
-    "formatters": {
+    'formatters': {
         # ================format参数中可能用到的格式化字符串=================
         # %(name)s  Logger的名字
         # %(levelno)s   数字形式的日志级别
@@ -180,15 +180,15 @@ LOGGING = {
         # %(message)s   用户输出的消息
 
         # 简单日志格式
-        "simple": {
+        'simple': {
             # 输出时间跟消息体"
-            "format": "[%(asctime)s] > %(message)s",
+            'format': '[%(asctime)s] > %(message)s',
             # 设置时间格式
-            "datefmt": "%Y-%m-%d %H:%M:%S"
+            'datefmt': '%Y-%m-%d %H:%M:%S'
         },
         # 标准日志输出
-        "standard": {
-            "format": "[%(asctime)s %(levelname)s %(filename)s %(funcName)s] > %(message)s"
+        'standard': {
+            'format': '[%(asctime)s %(levelname)s %(filename)s %(funcName)s] > %(message)s'
         },
     },
     # 过滤器，提供给handler使用(可以不使用)，也可以自定义过滤函数
@@ -199,7 +199,7 @@ LOGGING = {
     #     },
     # },
     # 处理器，设置日志记录方式
-    "handlers": {
+    'handlers': {
         # =================class设置分类（根据需求设置）=================
         # 'logging.StreamHandler'  # 控制台打印
         # 'logging.FileHandler'  # 保存到文件
@@ -220,21 +220,22 @@ LOGGING = {
             'maxBytes': 1024 * 1024 * 500,  # 日志大小 500M
             'formatter': 'standard',
             'encoding': 'utf-8',
-            'delay': True
+            # 'delay': True
         },
     },
     # 日志记录器
-    "loggers": {
+    'loggers': {
         # "django": {
         #     # 一个记录器中可以使用多个处理器
         #     "handlers": ["console", "file_handler"],
         #     "level": "WARNING",
         #     "propagate": True,
         # },
-        "script": {
-            "handler": ["file_handler"],
-            "level": "INFO",
-            "propagate": False,
+        'script': {
+            'handler': ['file_handler'],
+            'level': 'INFO',
+            # 是否继承⽗类的log信息
+            'propagate': False,
         }
     },
 }
