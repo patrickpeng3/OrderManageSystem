@@ -20,3 +20,18 @@ def game_log(request):
 # 更新页面
 def update_game(request):
     return render(request, "X-admin/hls/hls_update_game.html")
+
+
+# 启服页面
+def start_game(request):
+    return render(request, "x-admin/hls/hls_start_game.html")
+
+
+# 停服页面
+def stop_game(request):
+    return render(request, "x-admin/hls/hls_stop_game.html")
+
+
+# 删服页面
+def delete_game(request):
+    return render(request, "x-admin/hls/hls_delete_game.html")

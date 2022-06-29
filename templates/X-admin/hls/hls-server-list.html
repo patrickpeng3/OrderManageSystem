@@ -44,10 +44,10 @@
                             </span>
                     </div>
                     <button class="layui-btn layui-btn-normal" type="button" onclick="newGameServer(this)">搭服</button>
-                    <button class="layui-btn layui-btn-danger" type="button" onclick="newGameServer(this)">删服</button>
+                    <button class="layui-btn layui-btn-danger" type="button" onclick="deleteServer(this)">删服</button>
                     <button class="layui-btn layui-btn-normal" type="button" onclick="updateServer(this)">更新</button>
-                    <button class="layui-btn " type="submit" onclick="newGameServer(this)">启服</button>
-                    <button class="layui-btn layui-btn-warm" type="submit" onclick="newGameServer(this)">停服</button>
+                    <button class="layui-btn " type="submit" onclick="startServer(this)">启服</button>
+                    <button class="layui-btn layui-btn-warm" type="submit" onclick="stopServer(this)">停服</button>
                 </div>
                 <div class="layui-card-body ">
                     <div class="layui-card-body">
@@ -94,8 +94,20 @@
         xadmin.open('创服', "hls_create", 600, 300);
     }
 
-    function updateServer(){
+    function updateServer() {
         xadmin.open("更新", "hls_update", 600, 300)
+    }
+
+    function startServer() {
+        xadmin.open("启服", "hls_start", 600, 300)
+    }
+
+    function stopServer() {
+        xadmin.open("停服", "hls_stop", 600, 300)
+    }
+
+    function deleteServer() {
+        xadmin.open("删服", "hls_delete", 600, 300)
     }
 </script>
 <!-- 用户操作 -->
