@@ -1,9 +1,13 @@
 from django.http import JsonResponse
 # from models import *
+from rest_framework.response import Response
+
 from apps.hls.models import Servers
 from apps.hls.packages.server import get_cmd
 from apps.hls.packages.server.action_entry import update_entry, start_entry, stop_entry, create_entry, delete_entry
 from job_manager.packages.easy_tools import job_start_before, task_runner_celery
+import logging
+logger = logging.getLogger("log_test")
 
 
 # Create your views here.
@@ -63,9 +67,11 @@ def start_game(request):
 
 # 停服
 def stop_game(request):
+    logger.info("log_test=====>success!")
     if request.method == "POST":
         server_id = request.POST.get("L_serverid")
         username = request.user.username
+        print(server_id)
         stop_entry(username, server_id)
         return JsonResponse({"ret": "success"})
 

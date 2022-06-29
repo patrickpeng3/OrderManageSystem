@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 
 from pathlib import Path
 import os
-import logging
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -152,4 +151,89 @@ AUTH_USER_MODEL = 'users.User'
 #     filename='/tmp/djangoLog.log',
 # )
 
+LOGGING_DIR = "/data/log/cmdb_hls_log/"
+if not os.path.exists(LOGGING_DIR):
+    # os.system('mkdir -p {}'.format(LOGGING_DIR))
+    os.makedirs(LOGGING_DIR)
 
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,  # 是否禁用logger
+    # 日志格式
+    "formatters": {
+        # ================format参数中可能用到的格式化字符串=================
+        # %(name)s  Logger的名字
+        # %(levelno)s   数字形式的日志级别
+        # %(levelname)s 文本形式的日志级别
+        # %(pathname)s  调用日志输出函数的模块的完整路径名，可能没有
+        # %(filename)s  调用日志输出函数的模块的文件名
+        # %(module)s    调用日志输出函数的模块名
+        # %(funcName)s  调用日志输出函数的函数名
+        # %(lineno)d    调用日志输出函数的语句所在的代码行
+        # %(created)f   当前时间，用UNIX标准的表示时间的浮 点数表示
+        # %(relativeCreated)d   输出日志信息时的，自Logger创建以 来的毫秒数
+        # %(asctime)s   字符串形式的当前时间。默认格式是 “2003-07-08 16:49:45,896”。逗号后面的是毫秒
+        # %(thread)d    线程ID。可能没有
+        # %(threadName)s    线程名。可能没有
+        # %(process)d   进程ID。可能没有
+        # %(message)s   用户输出的消息
+
+        # 简单日志格式
+        "simple": {
+            # 输出时间跟消息体"
+            "format": "[%(asctime)s] > %(message)s",
+            # 设置时间格式
+            "datefmt": "%Y-%m-%d %H:%M:%S"
+        },
+        # 标准日志输出
+        "standard": {
+            "format": "[%(asctime)s %(levelname)s %(filename)s %(funcName)s] > %(message)s"
+        },
+    },
+    # 过滤器，提供给handler使用(可以不使用)，也可以自定义过滤函数
+    # "filters": {
+    #     # 过滤debug为True
+    #     "require_debug_true": {
+    #         "()": "django.utils.log.RequireDebugTure",
+    #     },
+    # },
+    # 处理器，设置日志记录方式
+    "handlers": {
+        # =================class设置分类（根据需求设置）=================
+        # 'logging.StreamHandler'  # 控制台打印
+        # 'logging.FileHandler'  # 保存到文件
+        # 'logging.handlers.RotatingFileHandler'  # 保存到文件，根据文件大小自动切
+        # 'logging.handlers.TimedRotatingFileHandler'  # 保存到文件，根据时间自动切
+        # 'django.utils.log.AdminEmailHandler'  # 管理员发送错误电子邮件（）
+        # "console": {
+        #     "level": "DEBUG",
+        #     'filters': ['require_debug_true'],  # 设置过滤器，多个用逗号分割
+        #     'class': 'logging.StreamHandler',  # 控制台打印
+        #     'formatter': 'simple'  # 选用格式化样式
+        # }
+        # 用于文件输出
+        'file_handler': {
+            'level': 'WARNING',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': '%s/cmdb_hls_script.log' % LOGGING_DIR,
+            'maxBytes': 1024 * 1024 * 500,  # 日志大小 500M
+            'formatter': 'standard',
+            'encoding': 'utf-8',
+            'delay': True
+        },
+    },
+    # 日志记录器
+    "loggers": {
+        # "django": {
+        #     # 一个记录器中可以使用多个处理器
+        #     "handlers": ["console", "file_handler"],
+        #     "level": "WARNING",
+        #     "propagate": True,
+        # },
+        "script": {
+            "handler": ["file_handler"],
+            "level": "INFO",
+            "propagate": False,
+        }
+    },
+}
