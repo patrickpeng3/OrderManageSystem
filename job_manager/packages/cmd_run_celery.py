@@ -1,12 +1,27 @@
 import subprocess
 from celery_task.celery_app import app
+from threading import Timer
+
+
+# subprocess
+def runner(cmd, timeout=300):
+    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    timer = Timer(timeout, lambda x: x.terminate(), [p])
+    timer.daemon = True
+    timer.start()
+    out, err = p.communicate()
+    status = p.returncode
+    if status == -15:
+        return "{cmd}命令超过{timeout}秒未返回".format(timeout=timeout, cmd=cmd)
+    timer.cancel()
+    return out, err, status
 
 
 # 执行本地命令
-def cmd_run_local(cmd, cmd_name="", need_raise=False):
-    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    out, err = p.communicate()
-    status = p.returncode
+@app.task()
+def cmd_run_local(cmd, cmd_name="", need_raise=False, timeout=300):
+    out, err, status = runner(cmd, timeout=timeout)
+    out = out.strip()
     ret = {
         "cmd_name": cmd_name,
         "cmd": cmd,

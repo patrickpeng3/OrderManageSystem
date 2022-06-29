@@ -1,3 +1,4 @@
+from rest_framework.routers import SimpleRouter
 from django.urls import path
 from .views import page
 from .views import action
@@ -8,6 +9,7 @@ from users.views import page as users_page
 from zabbix.views import page as zabbix_page
 from zabbix.views import action as zabbix_action
 
+# SimpleRouter.register(r'login', page.login)
 urlpatterns = [
     path('login/', page.login),
     path('loginAction/', action.login),
