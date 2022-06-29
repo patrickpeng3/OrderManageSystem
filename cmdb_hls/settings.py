@@ -214,7 +214,7 @@ LOGGING = {
         # }
         # 用于文件输出
         'file_handler': {
-            'level': 'WARNING',
+            'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': '%s/cmdb_hls_script.log' % LOGGING_DIR,
             'maxBytes': 1024 * 1024 * 500,  # 日志大小 500M
