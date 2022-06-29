@@ -33,11 +33,58 @@ class GetCmdBase(object):
         }
 
 
-def create_game(server_id, salt_id):
+def create_game(special, number, cmd_list):
+    """
+    创服
+    :param special: 专服名
+    :param number: 搭服数量
+    :param cmd_list: 命令列表
+    :return:
+    """
     cmd_base = GetCmdBase()
-    cmd = cmd_base.get_one_cmd_info("master", "create_game", server_id=server_id, salt_id=salt_id)
+    cmd_list.append(cmd_base.get_one_cmd_info("master", "create_game", special=special, number=number))
 
 
 def update_game(server_id, version, cmd_list):
+    """
+    更新
+    :param server_id: 游服id
+    :param version: 后端版本
+    :param cmd_list: 命令列表
+    :return:
+    """
     cmd_base = GetCmdBase()
     cmd_list.append(cmd_base.get_one_cmd_info("master", "update_game", server_id=server_id, version=version))
+
+
+def start_game(server_id, cmd_list):
+    """
+    启服
+    :param server_id: 游服id
+    :param cmd_list: 命令列表
+    :return:
+    """
+    cmd_base = GetCmdBase()
+    cmd_list.append(cmd_base.get_one_cmd_info("master", "start_game", server_id=server_id))
+
+
+def stop_game(server_id, cmd_list):
+    """
+    停服
+    :param server_id: 游服id
+    :param cmd_list: 命令列表
+    :return:
+    """
+    cmd_base = GetCmdBase()
+    cmd_list.append(cmd_base.get_one_cmd_info("master", "stop_game", server_id=server_id))
+
+
+def delete_game(server_id, cmd_list):
+    """
+    停服
+    :param server_id: 游服id
+    :param cmd_list: 命令列表
+    :return:
+    """
+    cmd_base = GetCmdBase()
+    cmd_list.append(cmd_base.get_one_cmd_info("master", "delete_game", server_id=server_id))

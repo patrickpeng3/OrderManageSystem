@@ -34,11 +34,23 @@ urlpatterns = [
 
     path('index/hls', hls_page.server_list),
     path('index/hls_action', hls_action.server_list_action),
+    # 搭服
     path('index/hls_create', hls_page.create_game),
     path('index/hls_create_action', hls_action.create_game),
     path('index/hls_log', hls_page.game_log),
+    # 更新
     path('index/hls_update', hls_page.update_game),
     path('index/hls_update_action', hls_action.update_game),
+    # 启服
+    path('index/hls_start', hls_page.start_game),
+    path('index/hls_start_action', hls_action.start_game),
+    # 停服
+    path('index/hls_stop', hls_page.stop_game),
+    path('index/hls_stop_action', hls_action.stop_game),
+    # 删服
+    path('index/hls_delete', hls_page.delete_game),
+    path('index/hls_delete_action', hls_action.delete_game),
+
 
     path('index/zabbix_host_list', zabbix_page.host_list),
     path('index/zabbix_host_list_action', zabbix_action.get_host),
