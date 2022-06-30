@@ -148,13 +148,12 @@ AUTH_USER_MODEL = 'users.User'
 
 # logging.basicConfig(
 #     level=logging.INFO,
-#     format='%(asctime)s %(levelname)s %(message)s',
-#     filename='/tmp/djangoLog.log',
+#     format='[%(asctime)s %(levelname)s] > %(message)s \n',
+#     filename='/data/log/cmdb_hls_log/djangoLog.log',
 # )
 
 LOGGING_DIR = "/data/log/cmdb_hls_log/"
 if not os.path.exists(LOGGING_DIR):
-    # os.system('mkdir -p {}'.format(LOGGING_DIR))
     os.makedirs(LOGGING_DIR)
 
 LOGGING = {
@@ -182,7 +181,7 @@ LOGGING = {
         # 简单日志格式
         'simple': {
             # 输出时间跟消息体"
-            'format': '[%(asctime)s] > %(message)s',
+            'format': '[%(asctime)s %(levelname)s] > %(message)s',
             # 设置时间格式
             'datefmt': '%Y-%m-%d %H:%M:%S'
         },
@@ -192,6 +191,7 @@ LOGGING = {
         },
     },
     # 过滤器，提供给handler使用(可以不使用)，也可以自定义过滤函数
+    # 过滤loggers传递给handlers的信息
     # "filters": {
     #     # 过滤debug为True
     #     "require_debug_true": {
@@ -206,36 +206,36 @@ LOGGING = {
         # 'logging.handlers.RotatingFileHandler'  # 保存到文件，根据文件大小自动切
         # 'logging.handlers.TimedRotatingFileHandler'  # 保存到文件，根据时间自动切
         # 'django.utils.log.AdminEmailHandler'  # 管理员发送错误电子邮件（）
-        # "console": {
-        #     "level": "DEBUG",
-        #     'filters': ['require_debug_true'],  # 设置过滤器，多个用逗号分割
-        #     'class': 'logging.StreamHandler',  # 控制台打印
-        #     'formatter': 'simple'  # 选用格式化样式
-        # }
+
         # 用于文件输出
-        'file_handler': {
+        'file_handler_script': {
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': '%s/cmdb_hls_script.log' % LOGGING_DIR,
             'maxBytes': 1024 * 1024 * 500,  # 日志大小 500M
-            'formatter': 'standard',
+            'formatter': 'simple',
             'encoding': 'utf-8',
             # 'delay': True
         },
     },
     # 日志记录器
     'loggers': {
-        # "django": {
-        #     # 一个记录器中可以使用多个处理器
-        #     "handlers": ["console", "file_handler"],
-        #     "level": "WARNING",
-        #     "propagate": True,
-        # },
-        'script': {
-            'handler': ['file_handler'],
-            'level': 'INFO',
+        'django': {
+            'handler': ['file_handler_script'],
+            # 'level': 'INFO',
+            # 'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
             # 是否继承⽗类的log信息
             'propagate': False,
-        }
+        },
     },
 }
+
+SCRIPT_TEST = logging.getLogger("django")
+SCRIPT_TEST.setLevel(logging.INFO)
+SCRIPT_TEST.info("info")
+SCRIPT_TEST.warning("warning")
+SCRIPT_TEST.error("error")
+SCRIPT_TEST.debug("debug")
+SCRIPT_TEST.critical("critical")
+print(SCRIPT_TEST)
+
