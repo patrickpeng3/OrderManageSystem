@@ -66,12 +66,13 @@ def start_game(request):
 
 # 停服
 def stop_game(request):
-    SCRIPT_LOGGER.info("log_script=====>success!")
     if request.method == "POST":
+        SCRIPT_LOGGER.info("log_script=====>success!")
+        print(SCRIPT_LOGGER)
         server_id = request.POST.get("L_serverid")
         username = request.user.username
         print(server_id)
-        stop_entry(username, server_id)
+        # stop_entry(username, server_id)
         return JsonResponse({"ret": "success"})
 
 
