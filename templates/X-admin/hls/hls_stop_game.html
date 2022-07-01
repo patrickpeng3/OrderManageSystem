@@ -52,6 +52,7 @@
                 $.ajax({
                     type: "post",
                     dataType: "json",
+                    timeout: 120000,
                     url: "/homepage/index/hls_stop_action",
                     async: true,
                     data: {
