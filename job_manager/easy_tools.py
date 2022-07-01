@@ -3,7 +3,7 @@ import traceback
 
 from celery_task.celery_app import app
 from job_manager.models import JobTask, JobCmd
-from job_manager.packages.cmd_run_celery import cmd_run_local, salt_sync_run, salt_async_run, salt_get_result
+from job_manager.cmd_runner.cmd_run_celery import cmd_run_local, salt_sync_run, salt_async_run, salt_get_result
 from celery.result import allow_join_result
 
 
@@ -201,6 +201,7 @@ def job_cmd_run(job_cmd_info, target=None):
                 raise Exception("未通过结果检查方法")
         # 更新命令执行状态
         job_cmd_success(job_cmd, out)
+        print("err = {}".format(error))
     except Exception as e:
         if not error:
             error = traceback.format_exc()
@@ -219,7 +220,7 @@ def task_runner_celery(job_task, job_cmd_infos, serial=None):
     :return: 错误信息或None
     """
     error = None
-    status = "success"
+    # status = "success"
     serial = serial
     try:
         job_task_start(job_task)
@@ -233,9 +234,10 @@ def task_runner_celery(job_task, job_cmd_infos, serial=None):
         if error is None:
             error = traceback.format_exc()
         job_task_interrupt(job_task, error)
-        status = "error"
+        # status = "error"
     finally:
         # async_runner.delay(job_task_confirm, job_task)
+        status = select_runner_result(job_task)
         return status
 
 
@@ -250,3 +252,24 @@ def async_runner(async_fun, *args, **kwargs):
     """
     with allow_join_result():
         async_fun(*args, **kwargs)
+
+
+@app.task()
+def select_runner_result(job_task, time_check=15):
+    """
+    任务执行结果查询
+    :param job_task: 任务队列模型
+    :param time_check: 查询间隔
+    :return:
+    """
+    # 每隔15秒查询一次，共查询12次，耗时3分钟
+    status = "failed"
+    for i in range(12):
+        time.sleep(time_check)
+        task = JobTask.objects.filter(id=job_task.id)[0]
+        if task:
+            j_cmd = JobCmd.objects.filter(job_task_id=job_task.id)[0]
+            if str(task.status) == "finished" and str(j_cmd.status) == "success":
+                status = "success"
+            break
+    return status

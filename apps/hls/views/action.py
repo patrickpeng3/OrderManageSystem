@@ -1,11 +1,8 @@
 from django.http import JsonResponse
 # from models import *
-from rest_framework.response import Response
 
 from apps.hls.models import Servers
-from apps.hls.packages.server import get_cmd
-from apps.hls.packages.server.action_entry import update_entry, start_entry, stop_entry, create_entry, delete_entry
-from job_manager.packages.easy_tools import job_start_before, task_runner_celery
+from apps.hls.packages.server.action_entry import update_entry, start_entry, create_entry, delete_entry, stop_entry
 from cmdb_hls.cmdb_logger import SCRIPT_LOGGER
 
 
@@ -68,12 +65,11 @@ def start_game(request):
 def stop_game(request):
     if request.method == "POST":
         SCRIPT_LOGGER.info("log_script=====>success!")
-        print(SCRIPT_LOGGER)
         server_id = request.POST.get("L_serverid")
         username = request.user.username
         print(server_id)
-        # stop_entry(username, server_id)
-        return JsonResponse({"ret": "success"})
+        status = stop_entry(username, server_id)
+        return JsonResponse({"ret": status})
 
 
 # 删服
