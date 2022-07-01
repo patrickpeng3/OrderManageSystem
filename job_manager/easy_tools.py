@@ -201,6 +201,7 @@ def job_cmd_run(job_cmd_info, target=None):
                 raise Exception("未通过结果检查方法")
         # 更新命令执行状态
         job_cmd_success(job_cmd, out)
+        print("err = {}".format(error))
     except Exception as e:
         if not error:
             error = traceback.format_exc()

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import subprocess
 from celery_task.celery_app import app
 from threading import Timer
@@ -16,6 +15,10 @@ def runner(cmd, timeout=300):
     timer.daemon = True
     timer.start()
     out, err = p.communicate()
+    out.decode('GBK')
+    err = err.decode('GBK')
+    if "Python 3.6 is no longer supported by the Python core team." in err:
+        err = ""
     status = p.returncode
     if status == -15:
         return "{cmd}命令超过{timeout}秒未返回".format(timeout=timeout, cmd=cmd)
