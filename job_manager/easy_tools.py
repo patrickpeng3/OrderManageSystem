@@ -3,7 +3,7 @@ import traceback
 
 from celery_task.celery_app import app
 from job_manager.models import JobTask, JobCmd
-from job_manager.packages.cmd_run_celery import cmd_run_local, salt_sync_run, salt_async_run, salt_get_result
+from job_manager.cmd_runner.cmd_run_celery import cmd_run_local, salt_sync_run, salt_async_run, salt_get_result
 from celery.result import allow_join_result
 
 

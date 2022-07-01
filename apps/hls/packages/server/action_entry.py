@@ -1,5 +1,5 @@
 from apps.hls.packages.server import get_cmd
-from job_manager.packages.easy_tools import job_start_before, task_runner_celery
+from job_manager.easy_tools import job_start_before, task_runner_celery
 
 
 def create_entry(username, special, number):
@@ -52,7 +52,7 @@ def stop_entry(username, server_id):
     """
     cmd_list = []
     get_cmd.stop_game(server_id, cmd_list)
-    job_task, job_cmds = job_start_before("启服", username, stop_entry, cmd_list)
+    job_task, job_cmds = job_start_before("停服", username, stop_entry, cmd_list)
     return task_runner_celery(job_task, job_cmds)
 
 

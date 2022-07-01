@@ -159,7 +159,6 @@ if not os.path.exists(LOGGING_DIR):
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,  # 是否禁用logger
-    # 日志格式
     'formatters': {
         # ================format参数中可能用到的格式化字符串=================
         # %(name)s  Logger的名字
@@ -177,27 +176,18 @@ LOGGING = {
         # %(threadName)s    线程名。可能没有
         # %(process)d   进程ID。可能没有
         # %(message)s   用户输出的消息
-
-        # 简单日志格式
-        'simple': {
-            # 输出时间跟消息体"
-            'format': '[%(asctime)s %(levelname)s] > %(message)s',
-            # 设置时间格式
-            'datefmt': '%Y-%m-%d %H:%M:%S'
-        },
-        # 标准日志输出
         'standard': {
-            'format': '[%(asctime)s %(levelname)s %(filename)s %(funcName)s] > %(message)s'
+            'format': '[%(levelname)s] [%(asctime)s] [%(name)s] [%(filename)s] [%(funcName)s] [%(lineno)d ] > [%(message)s]'
         },
     },
     # 过滤器，提供给handler使用(可以不使用)，也可以自定义过滤函数
     # 过滤loggers传递给handlers的信息
-    # "filters": {
-    #     # 过滤debug为True
-    #     "require_debug_true": {
-    #         "()": "django.utils.log.RequireDebugTure",
-    #     },
-    # },
+    'filters': {
+        # 过滤debug为True
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
     # 处理器，设置日志记录方式
     'handlers': {
         # =================class设置分类（根据需求设置）=================
@@ -207,35 +197,50 @@ LOGGING = {
         # 'logging.handlers.TimedRotatingFileHandler'  # 保存到文件，根据时间自动切
         # 'django.utils.log.AdminEmailHandler'  # 管理员发送错误电子邮件（）
 
-        # 用于文件输出
+        'console': {
+            'level': 'DEBUG',
+            # 'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            # 'class': 'mysite.logger_class.ConsoleHandler',
+            'formatter': 'standard'
+        },
+        'file_handler': {
+            'level': 'WARNING',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': '%s/cmdb_py2.log' % LOGGING_DIR,
+            'maxBytes': 1024 * 1024 * 500,  # 日志大小 500M
+            'formatter': 'standard',
+            'encoding': 'utf-8',
+            'delay': True
+        },
         'file_handler_script': {
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': '%s/cmdb_hls_script.log' % LOGGING_DIR,
-            'maxBytes': 1024 * 1024 * 500,  # 日志大小 500M
-            'formatter': 'simple',
-            'encoding': 'utf-8',
-            # 'delay': True
-        },
+            # 日志大小 500M
+            'maxBytes': 1024 * 1024 * 5,
+            'formatter': 'standard',
+            'encoding': 'utf-8'
+        }
     },
     # 日志记录器
     'loggers': {
         'django': {
-            'handler': ['file_handler_script'],
-            # 'level': 'INFO',
-            # 'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            # 一个记录器中可以使用多个处理器
+            'handlers': ['console', 'file_handler'],
+            'level': 'WARNING',
+            'propagate': True,
+        },
+        'request': {
+            'handlers': ['file_handler'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'script': {
+            'handlers': ['file_handler_script'],
+            'level': 'INFO',
             # 是否继承⽗类的log信息
             'propagate': False,
         },
-    },
+    }
 }
-
-SCRIPT_TEST = logging.getLogger("django")
-SCRIPT_TEST.setLevel(logging.INFO)
-SCRIPT_TEST.info("info")
-SCRIPT_TEST.warning("warning")
-SCRIPT_TEST.error("error")
-SCRIPT_TEST.debug("debug")
-SCRIPT_TEST.critical("critical")
-print(SCRIPT_TEST)
-
