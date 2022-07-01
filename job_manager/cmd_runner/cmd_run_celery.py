@@ -15,7 +15,7 @@ def runner(cmd, timeout=300):
     timer.daemon = True
     timer.start()
     out, err = p.communicate()
-    out.decode('utf-8')
+    out = out.decode('utf-8')
     err = err.decode('utf-8')
     if "Python 3.6 is no longer supported by the Python core team." in err:
         err = ""
