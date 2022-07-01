@@ -68,8 +68,8 @@ def stop_game(request):
         server_id = request.POST.get("L_serverid")
         username = request.user.username
         print(server_id)
-        stop_entry(username, server_id)
-        return JsonResponse({"ret": "success"})
+        status = stop_entry(username, server_id)
+        return JsonResponse({"ret": status})
 
 
 # 删服

@@ -220,7 +220,7 @@ def task_runner_celery(job_task, job_cmd_infos, serial=None):
     :return: 错误信息或None
     """
     error = None
-    status = "success"
+    # status = "success"
     serial = serial
     try:
         job_task_start(job_task)
@@ -234,9 +234,10 @@ def task_runner_celery(job_task, job_cmd_infos, serial=None):
         if error is None:
             error = traceback.format_exc()
         job_task_interrupt(job_task, error)
-        status = "error"
+        # status = "error"
     finally:
         # async_runner.delay(job_task_confirm, job_task)
+        status = select_runner_result(job_task)
         return status
 
 
@@ -251,3 +252,24 @@ def async_runner(async_fun, *args, **kwargs):
     """
     with allow_join_result():
         async_fun(*args, **kwargs)
+
+
+@app.task()
+def select_runner_result(job_task, time_check=15):
+    """
+    任务执行结果查询
+    :param job_task: 任务队列模型
+    :param time_check: 查询间隔
+    :return:
+    """
+    # 每隔15秒查询一次，共查询12次，耗时3分钟
+    status = "failed"
+    for i in range(12):
+        time.sleep(time_check)
+        task = JobTask.objects.filter(id=job_task.id)[0]
+        if task:
+            j_cmd = JobCmd.objects.filter(job_task_id=job_task.id)[0]
+            if str(task.status) == "finished" and str(j_cmd.status) == "success":
+                status = "success"
+            break
+    return status
