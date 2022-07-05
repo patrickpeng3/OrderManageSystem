@@ -1,0 +1,117 @@
+{% extends 'X-admin/list_base.html' %}
+
+{% block content_btn %}
+    <button class="layui-btn layui-btn-normal" type="button" onclick="newGameServer(this)">搭服
+    </button>
+    <button class="layui-btn layui-btn-danger" type="button" onclick="deleteServer(this)">删服
+    </button>
+    <button class="layui-btn layui-btn-normal" type="button" onclick="updateServer(this)">更新
+    </button>
+    <button class="layui-btn " type="submit" onclick="startServer(this)">启服</button>
+    <button class="layui-btn layui-btn-warm" type="submit" onclick="stopServer(this)">停服</button>
+{% endblock %}
+
+{% block content_table %}
+    <div class="layui-card-body ">
+        <table class="layui-table"
+               lay-data="{url:'/homepage/index/hls_action',page:true,toolbar: '#toolbarDemo',id:'memberList'}"
+               lay-filter="memberList">
+            <thead>
+            <tr>
+                <th lay-data="{type:'checkbox'}">ID</th>
+                <th lay-data="{field:'server_id', width:250, sort: true}">服务名</th>
+                <th lay-data="{field:'special_server', minWidth: 150}">专服</th>
+                <th lay-data="{field:'salt_id', minWidth:100}">服务器</th>
+                <th lay-data="{field:'server_host', minWidth: 100}">公网IP</th>
+                <th lay-data="{field:'backend_version', minWidth: 100}">后端版本</th>
+                <th lay-data="{field:'status', minWidth: 100, templet: '#StatusTemplet'}">状态</th>
+                <th lay-data="{'field':'operation', 'toolbar':'#OperationToolBar', width: 250}">操作</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+{% endblock %}
+
+<script>
+    {% block content_search %}
+        var active = {
+            reload: function () {
+                var search_value = $('#search_input').val();
+                table.reload('memberList', {
+                    page: {
+                        curr: 1
+                    },
+                    where: {
+                        "search_input": search_value,
+                        "method": "search"
+                    }
+                });
+            }
+        };
+    {% endblock %}
+
+    {% block content_javaScript %}
+        function newGameServer() {
+            xadmin.open('创服', "hls_create", 600, 300);
+        }
+
+        function updateServer() {
+            xadmin.open("更新", "hls_update", 600, 300);
+        }
+
+        function startServer() {
+            xadmin.open("启服", "hls_start", 600, 300);
+        }
+
+        function stopServer() {
+            xadmin.open("停服", "hls_stop", 600, 300);
+        }
+
+        function deleteServer() {
+            xadmin.open("删服", "hls_delete", 600, 300);
+        }
+
+        function ChangeValue() {
+            var table = layui.table;
+            table.on('row(memberList)', function (tableRow) {
+                $.ajax({
+                    type: 'get',
+                    dataType: 'json',
+                    url: '/homepage/index/hls_edit_action',
+                    data: {
+                        'id': tableRow.data.server_id
+                    },
+                    success: function (data) {
+                        tarurl = "hls_edit?" + data.server_id
+                        xadmin.open("修改信息", tarurl, 600, 400);
+                    },
+                    error: function (data) {
+                        alert("error");
+                    }
+                });
+            });
+        }
+    {% endblock %}
+</script>
+
+{% block table_btn %}
+    <!-- 用户状态templet -->
+    <script type="text/html" id="StatusTemplet">
+        {% verbatim %}
+        {{#  if(d.status == 1){ }}
+        <span id="get_status" class="layui-btn layui-btn-mini" onclick="ChangeStatus(this)">运行中</span>
+        {{#  } else { }}
+        <span id="get_status" class="layui-btn layui-btn-warm layui-btn-mini" onclick="ChangeStatus(this)">未运行</span>
+        {{#  } }}
+        {% endverbatim %}
+    </script>
+
+    <!-- 用户操作 -->
+    <script type="text/html" id="OperationToolBar">
+        <a onclick="ChangeValue(this)" title="修改密码" href="javascript:;">
+            <i class="layui-icon">&#xe631;</i>
+        </a>
+    </script>
+{% endblock %}
+
+</html>
