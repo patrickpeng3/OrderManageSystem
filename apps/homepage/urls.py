@@ -48,6 +48,9 @@ urlpatterns = [
     # 删服
     path('index/hls_delete', hls_page.delete_game),
     path('index/hls_delete_action', hls_action.delete_game),
+    # 修改信息
+    path('index/hls_edit', hls_page.edit_game),
+    path('index/hls_edit_action', hls_action.edit_game),
 
 
     path('index/zabbix_host_list', zabbix_page.host_list),

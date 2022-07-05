@@ -1,0 +1,122 @@
+{% extends 'X-admin/hls/hls_server_base.html' %}
+
+{% block content_form %}
+    <div class="layui-fluid">
+        <div class="layui-row">
+            <form class="layui-form">
+                {% csrf_token %}
+
+                <div class="layui-form-item">
+                    <label for="L_serverid" class="layui-form-label">服务名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="L_serverid" name="special" disabled=""
+                               autocomplete="off" class="layui-input" value="">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label for="L_special" class="layui-form-label">专服</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="L_special" name="special"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label for="L_server" class="layui-form-label">服务器</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="L_server" name="special"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label for="L_serverhost" class="layui-form-label">公网IP</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="L_serverhost" name="special"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label for="L_version" class="layui-form-label">后端版本</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="L_version" name="special"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label for="L_repass" class="layui-form-label"></label>
+                    <button class="layui-btn" lay-filter="add" lay-submit="" onclick="ChangeValue(this)">确定</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+<script>
+    {% block layui_script %}
+        var server_id = window.location.search.substring(1);
+        var $ = layui.$;
+        $.ajax({
+            type: "get",
+            dataType: "json",
+            async: true,
+            timeout: 120000,
+            url: "/homepage/index/hls_edit_action",
+            data: {
+                "id": server_id
+            },
+            success: function (data) {
+                $("#L_serverid").val(data.server_id);
+                $("#L_special").val(data.special);
+                $("#L_server").val(data.servername);
+                $("#L_serverhost").val(data.server_host);
+                $("#L_version").val(data.version);
+            }
+        })
+    {% endblock %}
+</script>
+
+{% block ajax_getValues %}
+    var csrf = $('input[name="csrfmiddlewaretoken"]').val(),
+    L_serverid = document.getElementById("L_serverid").value
+    L_special = document.getElementById("L_special").value,
+    L_server = document.getElementById("L_server").value,
+    L_serverhost = document.getElementById("L_serverhost").value,
+    L_version = document.getElementById("L_version").value;
+{% endblock %}
+
+{% block ajax_url %}
+    url: "/homepage/index/hls_edit_action",
+{% endblock %}
+
+{% block ajax_data %}
+    data: {
+    "csrfmiddlewaretoken": csrf,
+    "L_serverid": L_serverid,
+    "L_special": L_special,
+    "L_server": L_server,
+    "L_serverhost": L_serverhost,
+    "L_version": L_version,
+    },
+{% endblock %}
+
+{% block ajax_successAlert %}
+    layer.alert("修改成功", {
+    icon: 6
+    },
+{% endblock %}
+
+{% block ajax_failedAlert %}
+    layer.alert("修改失败", {
+    icon: 5
+    },
+{% endblock %}
+
+{% block ajax_errorAlert %}
+    layer.alert("修改失败", {
+    icon: 5
+    },
+{% endblock %}

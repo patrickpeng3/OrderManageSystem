@@ -1,6 +1,6 @@
 import time
 import traceback
-
+from cmdb_hls.cmdb_logger import SCRIPT_LOGGER
 from celery_task.celery_app import app
 from job_manager.models import JobTask, JobCmd
 from job_manager.cmd_runner.cmd_run_celery import cmd_run_local, salt_sync_run, salt_async_run, salt_get_result
@@ -271,5 +271,9 @@ def select_runner_result(job_task, time_check=15):
             j_cmd = JobCmd.objects.filter(job_task_id=job_task.id)[0]
             if str(task.status) == "finished" and str(j_cmd.status) == "success":
                 status = "success"
+            else:
+                status = "failed"
+            SCRIPT_LOGGER.info("task_status：{}\ncmd_status：{}".format(task.status, j_cmd.status))
+            SCRIPT_LOGGER.info("任务执行结果：{}".format(status))
             break
     return status
