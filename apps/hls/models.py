@@ -71,3 +71,4 @@ class Special(models.Model):
         verbose_name = "专服列表"
         verbose_name_plural = verbose_name
         ordering = ['id']
+

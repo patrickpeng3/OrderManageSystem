@@ -6,17 +6,17 @@
             <form class="layui-form">
                 {% csrf_token %}
                 <div class="layui-form-item">
-                    <label for="L_city" class="layui-form-label">
+                    <label for="L_special" class="layui-form-label">
                         </span>专服</label>
                     <div class="layui-input-inline">
-                        <input type="text" id="L_special" name="special" required="" lay-verify="userCity"
+                        <input type="text" id="L_special" name="special" required="" lay-verify="special"
                                autocomplete="off" class="layui-input"></div>
                 </div>
                 <div class="layui-form-item">
-                    <label for="L_school" class="layui-form-label">
+                    <label for="L_num" class="layui-form-label">
                         </span>数量</label>
                     <div class="layui-input-inline">
-                        <input type="text" id="L_num" name="number" required="" lay-verify="userSchool"
+                        <input type="text" id="L_num" name="number" required="" lay-verify="number"
                                autocomplete="off" class="layui-input"></div>
                 </div>
                 <div class="layui-form-item">
@@ -35,7 +35,7 @@
 {% endblock %}
 
 {% block ajax_url %}
-    url: "/homepage/index/hls_create_action",
+    url: "/homepage/hls/create/action/",
 {% endblock %}
 
 {% block ajax_data %}
