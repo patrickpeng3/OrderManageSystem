@@ -29,7 +29,7 @@
 {% endblock %}
 
 {% block ajax_url %}
-    url: "/homepage/index/hls_stop_action",
+        url: "/homepage/hls/stop/action/",
 {% endblock %}
 
 {% block ajax_data %}
@@ -46,13 +46,13 @@
 {% endblock %}
 
 {% block ajax_failedAlert %}
-    layer.alert("停服失败", {
+    layer.alert("停服失败" + data, {
     icon: 5
     },
 {% endblock %}
 
 {% block ajax_errorAlert %}
-    layer.alert("停服失败", {
+    layer.alert("停服错误", {
     icon: 5
     },
 {% endblock %}

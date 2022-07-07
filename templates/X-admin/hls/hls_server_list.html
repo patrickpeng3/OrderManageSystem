@@ -1,7 +1,7 @@
 {% extends 'X-admin/list_base.html' %}
 
 {% block content_btn %}
-    <button class="layui-btn layui-btn-normal" type="button" onclick="newGameServer(this)">搭服
+    <button class="layui-btn layui-btn-normal" type="button" onclick="newGameServer(this)">创服
     </button>
     <button class="layui-btn layui-btn-danger" type="button" onclick="deleteServer(this)">删服
     </button>
@@ -9,12 +9,13 @@
     </button>
     <button class="layui-btn " type="submit" onclick="startServer(this)">启服</button>
     <button class="layui-btn layui-btn-warm" type="submit" onclick="stopServer(this)">停服</button>
+    <button class="layui-btn" type="submit" onclick="testServer(this)">测试</button>
 {% endblock %}
 
 {% block content_table %}
     <div class="layui-card-body ">
         <table class="layui-table"
-               lay-data="{url:'/homepage/index/hls_action',page:true,toolbar: '#toolbarDemo',id:'memberList'}"
+               lay-data="{url:'/homepage/hls/list/action/',page:true,toolbar: '#toolbarDemo',id:'memberList'}"
                lay-filter="memberList">
             <thead>
             <tr>
@@ -91,6 +92,46 @@
                 });
             });
         }
+
+        {#通过rest frames api接口，获取数据库模型数据#}
+        function testServer() {
+            var $ = layui.$;
+            $.ajax({
+                type: "get",
+                dataType: "json",
+                url: "/homepage/hls/5/",
+                async: true,
+                data: {
+                    "username": "pengguanghong",
+                    "password": "123456"
+                },
+                timeout: 120000,
+                beforeSend: function () {
+                    $("body").append(
+                        '<div id="load" class="layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop"></div>' +
+                        '<span id="load_tips">执行中，请稍等...</span>'
+                    );
+                },
+                complete: function () {
+                    $("#load").remove();
+                    $("#load_tips").remove();
+                },
+                success: function (data) {
+                    alert("test_success")
+                    alert(data.server_id);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    switch (XMLHttpRequest.status) {
+                        case 401:
+                            break;
+                        case 404:
+                            break;
+                        case 500:
+                            break;
+                    }
+                }
+            })
+        }
     {% endblock %}
 </script>
 
@@ -99,7 +140,7 @@
     <script type="text/html" id="StatusTemplet">
         {% verbatim %}
         {{#  if(d.status == 1){ }}
-        <span id="get_status" class="layui-btn layui-btn-mini" onclick="ChangeStatus(this)">运行中</span>
+        <span id="get_status" class="layui-btn layui-btn-normal layui-btn-mini" onclick="ChangeStatus(this)">运行中</span>
         {{#  } else { }}
         <span id="get_status" class="layui-btn layui-btn-warm layui-btn-mini" onclick="ChangeStatus(this)">未运行</span>
         {{#  } }}

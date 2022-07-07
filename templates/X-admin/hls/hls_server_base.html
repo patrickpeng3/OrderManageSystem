@@ -111,7 +111,7 @@
                         $("#load_tips").remove();
                     },
                     success: function (data) {
-                        if (data.ret == "success") {
+                        if (data == "success") {
                             {% block ajax_successAlert %}
                                 layer.alert("停服成功", {
                                 icon: 6
@@ -141,7 +141,7 @@
                     },
                     error: function (data) {
                         {% block ajax_errorAlert %}
-                            layer.alert("停服失败", {
+                            layer.alert("停服错误", {
                             icon: 5
                         },
                         {% endblock %}

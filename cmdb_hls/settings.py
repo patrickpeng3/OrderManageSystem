@@ -32,6 +32,36 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 
+# -------------------------------------------------------
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = (
+    '*'
+)
+
+CORS_ALLOW_METHODS = (
+    'GET',
+    'OPTIONS'
+    'POST',
+    'DELETE',
+)
+
+CORS_ALLOW_HEADERS = (
+    '*'
+)
+
+# -------------------------------------------
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -45,6 +75,7 @@ INSTALLED_APPS = [
     'zabbix',
     'job_manager',
     'django_celery_results',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
