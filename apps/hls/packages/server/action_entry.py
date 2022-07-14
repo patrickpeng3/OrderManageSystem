@@ -1,5 +1,5 @@
 from apps.hls.packages.server import get_cmd
-from job_manager.easy_tools import job_start_before, task_runner_celery
+from job_manager.packages.easy_tools import job_start_before, task_runner_celery
 from cmdb_hls.cmdb_logger import SCRIPT_LOGGER
 
 

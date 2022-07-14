@@ -1,10 +1,10 @@
-{% extends 'X-admin/list_base.html' %}
+{% extends 'X-admin/base/list_base.html' %}
 
 {% block content_btn %}
     <div class="layui-card-header">
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除
         </button>
-        <button class="layui-btn" onclick="xadmin.open('添加用户','memberAdd',600,500)"><i
+        <button class="layui-btn" onclick="xadmin.open('添加用户','memberAdd',600,580)"><i
                 class="layui-icon"></i>添加
         </button>
     </div>
@@ -13,18 +13,17 @@
 {% block content_table %}
     <div class="layui-card-body">
         <table class="layui-table"
-               lay-data="{url:'/homepage/index/memberlistAction',page:true,toolbar: '#toolbarDemo',id:'memberList'}"
+               lay-data="{url:'/homepage/users/list/user_action',page:true,toolbar: '#toolbarDemo',id:'memberList'}"
                lay-filter="memberList">
             <thead>
             <tr>
                 <th lay-data="{type:'checkbox'}">ID</th>
                 <th lay-data="{field:'id', width:80, sort: true}">ID</th>
                 <th lay-data="{field:'username', width:120, sort: true, edit: 'text'}">用户名</th>
-                <th lay-data="{field:'email', edit: 'text', minWidth: 150}">邮箱</th>
                 <th lay-data="{field:'sex', width:80,templet: '#switchTpl'}">性别</th>
-                <th lay-data="{field:'city', edit: 'text', minWidth: 100}">城市</th>
-                <th lay-data="{field:'score', sort: true, edit: 'text'}">积分</th>
-                <th lay-data="{field:'school', edit: 'text'}">学校</th>
+                <th lay-data="{field:'email', edit: 'text', minWidth: 150}">邮箱</th>
+                <th lay-data="{field:'number', edit: 'text', minWidth: 100}">电话</th>
+                <th lay-data="{field:'department', sort: true}">部门</th>
                 <th lay-data="{'field':'status', templet: '#StatusTemplet'}">状态</th>
                 <th lay-data="{'field':'operation', 'toolbar':'#OperationToolBar'}">操作</th>
             </tr>
@@ -43,8 +42,8 @@
                         curr: 1
                     },
                     where: {
-                        "username": search_value,
-                        "method": "searchUser"
+                        "search_input": search_value,
+                        "method": "search"
                     }
                 });
             }
@@ -61,14 +60,14 @@
                 $.ajax({
                     type: "get",
                     dataType: "json",
-                    url: "/homepage/index/memberEditAction",
+                    url: "/homepage/users/edit/user_action/",
                     data: {
                         "id": rowData.id,
                         "field": field,
                         "value": value
                     },
                     success: function (data) {
-                        if (data.ret == "success") {
+                        if (data) {
                             layer.msg('[ID: ' + rowData.id + '] ' + field + ' 字段更改为：' + value);
                         } else {
                         }
@@ -85,7 +84,7 @@
             $.ajax({
                 type: "get",
                 dataType: "json",
-                url: "/homepage/index/genderChangeAction",
+                url: "/homepage/users/gender/user_action/",
                 data: {
                     "id": userId
                 },
@@ -110,12 +109,12 @@
                         type: "get",
                         async: true,
                         dataType: "json",
-                        url: "/homepage/index/memberdelAction",
+                        url: "/homepage/users/delete/user_action/",
                         data: {
                             'id': tableRow.data.id,
                         },
                         success: function (data) {
-                            if (data.ret == 'success') {
+                            if (data) {
                                 //发异步删除数据
                                 $(obj).parents("tr").remove();
                                 layer.msg('已删除!', {icon: 1, time: 1000});
@@ -147,12 +146,12 @@
                 $.ajax({
                     type: "get",
                     dataType: "json",
-                    url: "/homepage/index/memberDelAllAction",
+                    url: "/homepage/users/delete/all_action/",
                     data: {
                         "ids": ids
                     },
                     success: function (data) {
-                        if (data.ret == "success") {
+                        if (data) {
                             //捉到所有被选中的，发异步进行删除
                             layer.msg('删除成功', {icon: 1});
                             $(".layui-form-checked").not('.header').parents('tr').remove();
@@ -174,15 +173,14 @@
                 $.ajax({
                     type: 'get',
                     dataType: 'json',
-                    url: "/homepage/index/memberlistAction",
+                    url: "/homepage/users/list/status_action/",
                     data: {
-                        'method': 'getStatus',
                         'id': tableRow.data.id
                     },
                     success: function (data) {
                         var normal = $("#get_status").hasClass("layui-btn-normal");
                         var danger = $("#get_status").hasClass("layui-btn-danger");
-                        if (data.status == 1) {
+                        if (data) {
                             $("#get_status").text("已启用");
                             if (!normal) {
                                 $("#get_status").addClass("layui-btn-normal");
@@ -211,12 +209,8 @@
                 $.ajax({
                     type: 'get',
                     dataType: 'json',
-                    url: '/homepage/index/memberPasswordAction',
-                    data: {
-                        'id': tableRow.data.id
-                    },
+                    url: '/homepage/users/' + tableRow.data.id +'/',
                     success: function (data) {
-                        {#alert(data.username);#}
                         tarurl = "memberPassword?" + data.username
                         xadmin.open('修改密码', tarurl, 600, 400);
                     },

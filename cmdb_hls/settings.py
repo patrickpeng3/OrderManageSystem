@@ -35,7 +35,12 @@ ALLOWED_HOSTS = ['*']
 # -------------------------------------------------------
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
+        # 允许任何用户访问
         'rest_framework.permissions.AllowAny',
+        # 允许普通用户访问
+        'rest_framework.permissions.IsAuthenticated',
+        # 允许超管访问
+        'rest_framework.permissions.IsAdminUser',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',

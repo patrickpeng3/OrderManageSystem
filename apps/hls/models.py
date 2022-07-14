@@ -8,11 +8,12 @@ class Servers(models.Model):
     """
     服务器列表
     """
-    id = models.AutoField("id", primary_key=True)
-    server_id = models.IntegerField("游服id")
+    # id = models.AutoField("id", primary_key=True)
+    server_id = models.IntegerField("游服id", primary_key=True)
     special_server = models.CharField("专服", max_length=10)
     salt_id = models.CharField("saltid", max_length=16)
     status = models.IntegerField("状态", null=True, blank=True)
+    front_version = models.CharField("前端版本", max_length=20, null=True, blank=True)
     version = models.CharField("后端版本", max_length=20, null=True, blank=True)
     server_host = models.CharField("公网IP", max_length=20, null=True, blank=True)
     private_host = models.CharField("内网IP", max_length=20, null=True, blank=True)
@@ -29,7 +30,7 @@ class Servers(models.Model):
     class Meta:
         verbose_name = "服务器列表"
         verbose_name_plural = verbose_name
-        ordering = ['id']
+        ordering = ['server_id']
 
 
 class Machine(models.Model):

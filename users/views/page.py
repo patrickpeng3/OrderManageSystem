@@ -6,24 +6,19 @@ from django.shortcuts import render
 
 # 动态会员列表
 def memberList(request):
-    return render(request, "X-admin/member-list.html")
-
-
-# 会员删除
-def memberdel(request):
-    return render(request, "X-admin/member-del.html")
+    return render(request, "X-admin/users/member-list.html")
 
 
 # 新增会员
 def memberAdd(request):
-    return render(request, "X-admin/member-add.html")
-
-
-# 编辑会员
-def memberEdit(request):
-    return render(request, "X-admin/member-edit.html")
+    return render(request, "X-admin/users/member-add.html")
 
 
 # 修改会员密码
 def memberPassword(request):
-    return render(request, "X-admin/member-password.html")
+    return render(request, "X-admin/users/member-password.html")
+
+
+# 部门列表
+def departmentList(request):
+    return render(request, "X-admin/department/department-list.html")

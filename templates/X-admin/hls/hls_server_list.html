@@ -1,4 +1,4 @@
-{% extends 'X-admin/list_base.html' %}
+{% extends 'X-admin/base/list_base.html' %}
 
 {% block content_btn %}
     <button class="layui-btn layui-btn-normal" type="button" onclick="newGameServer(this)">创服
@@ -15,7 +15,7 @@
 {% block content_table %}
     <div class="layui-card-body ">
         <table class="layui-table"
-               lay-data="{url:'/homepage/hls/list/action/',page:true,toolbar: '#toolbarDemo',id:'memberList'}"
+               lay-data="{url:'/homepage/hls/list/game_action/',page:true,toolbar: '#toolbarDemo',id:'memberList'}"
                lay-filter="memberList">
             <thead>
             <tr>
@@ -24,6 +24,7 @@
                 <th lay-data="{field:'special_server', minWidth: 150}">专服</th>
                 <th lay-data="{field:'salt_id', minWidth:100}">服务器</th>
                 <th lay-data="{field:'server_host', minWidth: 100}">公网IP</th>
+                <th lay-data="{field:'front_version', minWidth: 100}">前端版本</th>
                 <th lay-data="{field:'backend_version', minWidth: 100}">后端版本</th>
                 <th lay-data="{field:'status', minWidth: 100, templet: '#StatusTemplet'}">状态</th>
                 <th lay-data="{'field':'operation', 'toolbar':'#OperationToolBar', width: 250}">操作</th>
@@ -75,21 +76,8 @@
         function ChangeValue() {
             var table = layui.table;
             table.on('row(memberList)', function (tableRow) {
-                $.ajax({
-                    type: 'get',
-                    dataType: 'json',
-                    url: '/homepage/index/hls_edit_action',
-                    data: {
-                        'id': tableRow.data.server_id
-                    },
-                    success: function (data) {
-                        tarurl = "hls_edit?" + data.server_id
-                        xadmin.open("修改信息", tarurl, 600, 400);
-                    },
-                    error: function (data) {
-                        alert("error");
-                    }
-                });
+                tarurl = "hls_edit?" + tableRow.data.server_id;
+                xadmin.open("修改信息", tarurl, 600, 500);
             });
         }
 
