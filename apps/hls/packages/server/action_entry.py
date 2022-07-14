@@ -59,8 +59,14 @@ def stop_entry(username, server_id):
     cmd_list = []
     get_cmd.stop_game(server_id, cmd_list)
     SCRIPT_LOGGER.info("命令列表：{}".format(cmd_list))
-    job_task, job_cmds = job_start_before("停服", username, stop_entry, params, cmd_list)
     try:
+        job_task, job_cmds = job_start_before("停服", username, stop_entry, params, cmd_list)
+        SCRIPT_LOGGER.info(job_task)
+        SCRIPT_LOGGER.info(job_cmds)
+    except Exception as e:
+        SCRIPT_LOGGER.info(e)
+    try:
+        my_task.delay()
         res = task_runner_celery.delay(job_task, job_cmds)
         SCRIPT_LOGGER.info(res)
     except Exception as e:

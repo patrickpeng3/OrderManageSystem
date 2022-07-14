@@ -23,7 +23,7 @@ def job_start_before(name, username, fun, params, cmds, serial=''):
     job_info = {
         "name": name,
         "username": username,
-        "parames": params,
+        "params": params,
         "function_name": fun.__name__,
         "status": "waiting",
         "serial": serial
