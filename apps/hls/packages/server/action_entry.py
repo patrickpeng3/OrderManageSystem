@@ -14,7 +14,7 @@ def create_entry(username, special, number):
     cmd_list = []
     get_cmd.create_game(special, number, cmd_list)
     job_task, job_cmds = job_start_before("搭服", username, create_entry, cmd_list)
-    return task_runner_celery(job_task, job_cmds)
+    return task_runner_celery.delay(job_task, job_cmds)
 
 
 def update_entry(username, server_id, version):
@@ -28,7 +28,7 @@ def update_entry(username, server_id, version):
     cmd_list = []
     get_cmd.update_game(server_id, version, cmd_list)
     job_task, job_cmds = job_start_before("更新", username, update_entry, cmd_list)
-    return task_runner_celery(job_task, job_cmds)
+    return task_runner_celery.delay(job_task, job_cmds)
 
 
 def start_entry(username, server_id):
@@ -41,7 +41,7 @@ def start_entry(username, server_id):
     cmd_list = []
     get_cmd.start_game(server_id, cmd_list)
     job_task, job_cmds = job_start_before("启服", username, start_entry, cmd_list)
-    return task_runner_celery(job_task, job_cmds)
+    return task_runner_celery.delay(job_task, job_cmds)
 
 
 def stop_entry(username, server_id):
@@ -55,7 +55,7 @@ def stop_entry(username, server_id):
     get_cmd.stop_game(server_id, cmd_list)
     SCRIPT_LOGGER.info("命令列表：{}".format(cmd_list))
     job_task, job_cmds = job_start_before("停服", username, stop_entry, cmd_list)
-    return task_runner_celery(job_task, job_cmds)
+    return task_runner_celery.delay(job_task, job_cmds)
 
 
 def delete_entry(username, server_id):
@@ -68,4 +68,4 @@ def delete_entry(username, server_id):
     cmd_list = []
     get_cmd.stop_game(server_id, cmd_list)
     job_task, job_cmds = job_start_before("启服", username, delete_entry, cmd_list)
-    return task_runner_celery(job_task, job_cmds)
+    return task_runner_celery.delay(job_task, job_cmds)

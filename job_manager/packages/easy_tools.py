@@ -236,7 +236,7 @@ def task_runner_celery(job_task, job_cmd_infos, serial=None):
         job_task_interrupt(job_task, error)
         # status = "error"
     finally:
-        # async_runner.delay(job_task_confirm, job_task)
+        async_runner.delay(job_task_confirm, job_task)
         status = select_runner_result(job_task)
         return status
 
