@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from apps.hls.packages.server import get_cmd
 from job_manager.packages.easy_tools import job_start_before, task_runner_celery
 from cmdb_hls.cmdb_logger import SCRIPT_LOGGER
@@ -41,7 +42,7 @@ def start_entry(username, server_id):
     cmd_list = []
     get_cmd.start_game(server_id, cmd_list)
     job_task, job_cmds = job_start_before("启服", username, start_entry, cmd_list)
-    return task_runner_celery.delay(job_task, job_cmds)
+    return task_runner_celery(job_task, job_cmds)
 
 
 def stop_entry(username, server_id):
@@ -55,7 +56,12 @@ def stop_entry(username, server_id):
     get_cmd.stop_game(server_id, cmd_list)
     SCRIPT_LOGGER.info("命令列表：{}".format(cmd_list))
     job_task, job_cmds = job_start_before("停服", username, stop_entry, cmd_list)
-    return task_runner_celery.delay(job_task, job_cmds)
+    try:
+        res = task_runner_celery.delay(job_task, job_cmds)
+        SCRIPT_LOGGER.info(res)
+    except Exception as e:
+        SCRIPT_LOGGER.info(e)
+    return res
 
 
 def delete_entry(username, server_id):
