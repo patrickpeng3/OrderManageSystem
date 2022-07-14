@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import subprocess
 from celery_task.celery_app import app
 from threading import Timer

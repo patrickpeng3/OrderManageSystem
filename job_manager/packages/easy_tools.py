@@ -10,7 +10,7 @@ from job_manager.cmd_runner.cmd_run_celery import cmd_run_local, salt_sync_run, 
 
 
 # ---------------------------------------任务执行前，初始化任务、命令模型-----------------------------------------------
-def job_start_before(name, username, fun, cmds, serial=''):
+def job_start_before(name, username, fun, params, cmds, serial=''):
     """
     :param name: 任务名
     :param username: 执行者
@@ -23,7 +23,7 @@ def job_start_before(name, username, fun, cmds, serial=''):
     job_info = {
         "name": name,
         "username": username,
-        # "parames": parames,
+        "params": params,
         "function_name": fun.__name__,
         "status": "waiting",
         "serial": serial
@@ -239,7 +239,7 @@ def task_runner_celery(job_task, job_cmd_infos, serial=None):
         job_task_interrupt(job_task, error)
         # status = "error"
     finally:
-        async_runner.delay(job_task_confirm, job_task)
+        # async_runner.delay(job_task_confirm, job_task)
         status = select_runner_result(job_task)
         return status
 
