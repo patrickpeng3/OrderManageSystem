@@ -1,0 +1,254 @@
+{% extends 'X-admin/base/list_base.html' %}
+
+{% block content_btn %}
+    <div class="layui-card-header">
+        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除
+        </button>
+        <button class="layui-btn" onclick="xadmin.open('添加部门','memberAdd',600,580)"><i
+                class="layui-icon"></i>添加
+        </button>
+    </div>
+{% endblock %}
+
+{% block content_table %}
+    <div class="layui-card-body">
+        <table class="layui-table"
+               lay-data="{url:'/homepage/department/list/department_action',page:true,toolbar: '#toolbarDemo',id:'memberList'}"
+               lay-filter="memberList">
+            <thead>
+            <tr>
+                <th lay-data="{type:'checkbox'}">ID</th>
+                <th lay-data="{field:'id', width:80, sort: true}">ID</th>
+                <th lay-data="{field:'name', width:120, sort: true, edit: 'text'}">部门名称</th>
+                <th lay-data="{field:'desc_id', width:120}">部门组</th>
+                <th lay-data="{field:'description', edit: 'text', minWidth: 500}">介绍</th>
+                <th lay-data="{'field':'operation', 'toolbar':'#OperationToolBar', width: 160}">操作</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+{% endblock %}
+
+<script>
+    {% block content_search %}
+        var active = {
+            reload: function () {
+                var search_value = $('#search_input').val();
+                table.reload('memberList', {
+                    page: {
+                        curr: 1
+                    },
+                    where: {
+                        "search_input": search_value,
+                        "method": "search"
+                    }
+                });
+            }
+        };
+    {% endblock %}
+
+    {% block layui_script %}
+        //监听单元格编辑
+        table.on('edit(memberList)',
+            function (obj) {
+                var value = obj.value, //得到修改后的值
+                    rowData = obj.data, //得到所在行所有键值
+                    field = obj.field; //得到字段
+                $.ajax({
+                    type: "get",
+                    dataType: "json",
+                    url: "/homepage/users/edit/user_action/",
+                    data: {
+                        "id": rowData.id,
+                        "field": field,
+                        "value": value
+                    },
+                    success: function (data) {
+                        if (data) {
+                            layer.msg('[ID: ' + rowData.id + '] ' + field + ' 字段更改为：' + value);
+                        } else {
+                        }
+                    },
+                    error: function (XMLHttpRequest) {
+                        layer.msg('Error!');
+                    },
+                });
+            });
+
+        //监听性别选择开关
+        form.on('switch(genderSwitch)', function (sexData) {
+            var userId = sexData.value;
+            $.ajax({
+                type: "get",
+                dataType: "json",
+                url: "/homepage/users/gender/user_action/",
+                data: {
+                    "id": userId
+                },
+                success: function (data) {
+
+                },
+                error: function (data) {
+                    alert("error")
+                }
+            })
+        });
+    {% endblock %}
+
+
+    {% block content_javaScript %}
+        /*用户-删除*/
+        function member_del(obj) {
+            var table = layui.table;
+            table.on('row(memberList)', function (tableRow) {
+                layer.confirm('确认要删除吗？', function (index) {
+                    $.ajax({
+                        type: "get",
+                        async: true,
+                        dataType: "json",
+                        url: "/homepage/users/delete/user_action/",
+                        data: {
+                            'id': tableRow.data.id,
+                        },
+                        success: function (data) {
+                            if (data) {
+                                //发异步删除数据
+                                $(obj).parents("tr").remove();
+                                layer.msg('已删除!', {icon: 1, time: 1000});
+                            } else {
+                                alert("删除失败！");
+                            }
+                        },
+                        error: function (data) {
+                            alert("Error！");
+                        }
+                    });
+                    location.reload();
+                });
+            });
+        }
+
+        function delAll(argument) {
+            var ids = [];
+            var checkStatus = layui.table.checkStatus('memberList');
+            var checkData = checkStatus.data;
+
+            for (var i = 0; i < checkData.length; i++) {
+                id = checkData[i].id;
+                ids.push(id)
+            }
+            ids = "[" + ids + "]"
+
+            layer.confirm('确认要删除吗？' + ids.toString(), function (index) {
+                $.ajax({
+                    type: "get",
+                    dataType: "json",
+                    url: "/homepage/users/delete/all_action/",
+                    data: {
+                        "ids": ids
+                    },
+                    success: function (data) {
+                        if (data) {
+                            //捉到所有被选中的，发异步进行删除
+                            layer.msg('删除成功', {icon: 1});
+                            $(".layui-form-checked").not('.header').parents('tr').remove();
+                        } else {
+                            layer.msg('删除失败！', {icon: 2});
+                        }
+                    },
+                    error: function (data) {
+                        alert("error");
+                    }
+                });
+
+            });
+        }
+
+        function ChangeStatus() {
+            var table = layui.table;
+            table.on('row(memberList)', function (tableRow) {
+                $.ajax({
+                    type: 'get',
+                    dataType: 'json',
+                    url: "/homepage/users/list/status_action/",
+                    data: {
+                        'id': tableRow.data.id
+                    },
+                    success: function (data) {
+                        var normal = $("#get_status").hasClass("layui-btn-normal");
+                        var danger = $("#get_status").hasClass("layui-btn-danger");
+                        if (data) {
+                            $("#get_status").text("已启用");
+                            if (!normal) {
+                                $("#get_status").addClass("layui-btn-normal");
+                                $("#get_status").removeClass("layui-btn-danger");
+                            }
+                        } else {
+                            $("#get_status").text("已禁用");
+                            if (!danger) {
+                                $("#get_status").removeClass("layui-btn-normal");
+                                $("#get_status").addClass("layui-btn-danger");
+                            }
+                        }
+                    },
+                    error: function (data) {
+                        alert("error!")
+                    }
+                });
+            });
+            location.reload();
+        }
+
+
+        function ChangePasswd() {
+            var table = layui.table;
+            table.on('row(memberList)', function (tableRow) {
+                $.ajax({
+                    type: 'get',
+                    dataType: 'json',
+                    url: '/homepage/users/' + tableRow.data.id +'/',
+                    success: function (data) {
+                        tarurl = "memberPassword?" + data.username
+                        xadmin.open('修改密码', tarurl, 600, 400);
+                    },
+                    error: function (data) {
+                        alert("error");
+                    }
+                });
+            });
+        }
+    {% endblock %}
+</script>
+
+
+{% block table_btn %}
+    <!-- 用户状态templet -->
+    <script type="text/html" id="StatusTemplet">
+        {% verbatim %}
+        {{#  if(d.status == 1){ }}
+        <span id="get_status" class="layui-btn layui-btn-normal layui-btn-mini" onclick="ChangeStatus(this)">已启用</span>
+        {{#  } else { }}
+        <span id="get_status" class="layui-btn layui-btn-danger layui-btn-mini" onclick="ChangeStatus(this)">已禁用</span>
+        {{#  } }}
+        {% endverbatim %}
+    </script>
+
+    <!-- 用户操作 -->
+    <script type="text/html" id="OperationToolBar">
+        <a onclick="ChangePasswd(this)" title="修改密码" href="javascript:;">
+            <i class="layui-icon">&#xe631;</i>
+        </a>
+        <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+            <i class="layui-icon">&#xe640;</i>
+        </a>
+    </script>
+
+    <!-- 用户性别选择 -->
+    <script type="text/html" id="switchTpl">
+        {% verbatim %}
+        <input type="checkbox" name="memberGender" value="{{ d.id }}" lay-skin="switch" lay-text="女|男"
+               lay-filter="genderSwitch" {{ d.sex== "female" ? 'checked':''}}>
+        {% endverbatim %}
+    </script>
+
+{% endblock %}

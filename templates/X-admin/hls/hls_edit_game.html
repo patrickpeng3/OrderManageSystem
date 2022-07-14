@@ -39,6 +39,14 @@
                 </div>
 
                 <div class="layui-form-item">
+                    <label for="L_frontver" class="layui-form-label">前端版本</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="L_frontver" name="special"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
                     <label for="L_version" class="layui-form-label">后端版本</label>
                     <div class="layui-input-inline">
                         <input type="text" id="L_version" name="special"
@@ -64,15 +72,13 @@
             dataType: "json",
             async: true,
             timeout: 120000,
-            url: "/homepage/index/hls_edit_action",
-            data: {
-                "id": server_id
-            },
+            url: "/homepage/hls/" + server_id,
             success: function (data) {
                 $("#L_serverid").val(data.server_id);
-                $("#L_special").val(data.special);
-                $("#L_server").val(data.servername);
+                $("#L_special").val(data.special_server);
+                $("#L_server").val(data.salt_id);
                 $("#L_serverhost").val(data.server_host);
+                $("#L_frontver").val(data.front_version);
                 $("#L_version").val(data.version);
             }
         })
@@ -85,11 +91,12 @@
     L_special = document.getElementById("L_special").value,
     L_server = document.getElementById("L_server").value,
     L_serverhost = document.getElementById("L_serverhost").value,
+    L_frontver = document.getElementById("L_frontver").value,
     L_version = document.getElementById("L_version").value;
 {% endblock %}
 
 {% block ajax_url %}
-    url: "/homepage/index/hls_edit_action",
+    url: "/homepage/hls/edit/game_action/",
 {% endblock %}
 
 {% block ajax_data %}
@@ -99,6 +106,7 @@
     "L_special": L_special,
     "L_server": L_server,
     "L_serverhost": L_serverhost,
+    "L_frontver": L_frontver,
     "L_version": L_version,
     },
 {% endblock %}

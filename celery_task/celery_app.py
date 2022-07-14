@@ -16,7 +16,7 @@ app = Celery("celery_cmdb")
 app.config_from_object('celery_task.celery_config')
 
 # 自动搜索任务
-app.autodiscover_tasks()
+app.autodiscover_tasks(["celery_task.tasks", "job_manager.packages.easy_tools"])
 
 if __name__ == '__main__':
     app.start()
