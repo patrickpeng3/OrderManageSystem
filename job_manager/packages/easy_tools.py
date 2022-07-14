@@ -1,10 +1,12 @@
+# -*- coding: utf-8 -*-
 import time
 import traceback
+from django.db import transaction
 from cmdb_hls.cmdb_logger import SCRIPT_LOGGER
 from celery_task.celery_app import app
+from celery.result import allow_join_result
 from job_manager.models import JobTask, JobCmd
 from job_manager.cmd_runner.cmd_run_celery import cmd_run_local, salt_sync_run, salt_async_run, salt_get_result
-from celery.result import allow_join_result
 
 
 # ---------------------------------------任务执行前，初始化任务、命令模型-----------------------------------------------
@@ -26,21 +28,22 @@ def job_start_before(name, username, fun, cmds, serial=''):
         "status": "waiting",
         "serial": serial
     }
-    job_task = JobTask.objects.create(**job_info)
-    job_cmds = []
-    for cmd_info in cmds:
-        job_cmd = JobCmd.objects.create(
-            cmd=cmd_info['cmd'],
-            run_type=cmd_info['run_type'],
-            status="waiting",
-            job_task=job_task,
-        )
-        job_cmds.append({
-            "model": job_cmd,
-            "out_check": cmd_info['out_check'],
-            "check_params": cmd_info['check_params'],
-            "ignore_error": cmd_info.get('ignore_error'),
-        })
+    with transaction.atomic():
+        job_task = JobTask.objects.create(**job_info)
+        job_cmds = []
+        for cmd_info in cmds:
+            job_cmd = JobCmd.objects.create(
+                cmd=cmd_info['cmd'],
+                run_type=cmd_info['run_type'],
+                status="waiting",
+                job_task=job_task,
+            )
+            job_cmds.append({
+                "model": job_cmd,
+                "out_check": cmd_info['out_check'],
+                "check_params": cmd_info['check_params'],
+                "ignore_error": cmd_info.get('ignore_error'),
+            })
     return job_task, job_cmds
 
 
