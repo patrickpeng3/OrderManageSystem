@@ -18,7 +18,7 @@ class ActionBase(ViewSet):
     """
     用户管理基础
     """
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 
 class MemberList(ActionBase):
