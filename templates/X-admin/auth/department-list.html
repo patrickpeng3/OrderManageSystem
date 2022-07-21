@@ -4,7 +4,7 @@
     <div class="layui-card-header">
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除
         </button>
-        <button class="layui-btn" onclick="xadmin.open('添加部门','memberAdd',600,580)"><i
+        <button class="layui-btn" onclick="xadmin.open('添加部门','role_add',800,580)"><i
                 class="layui-icon"></i>添加
         </button>
     </div>
@@ -13,15 +13,16 @@
 {% block content_table %}
     <div class="layui-card-body">
         <table class="layui-table"
-               lay-data="{url:'/homepage/department/list/department_action',page:true,toolbar: '#toolbarDemo',id:'memberList'}"
+               lay-data="{url:'/auth/group/list/list_action/',page:true,toolbar: '#toolbarDemo',id:'memberList'}"
                lay-filter="memberList">
             <thead>
             <tr>
                 <th lay-data="{type:'checkbox'}">ID</th>
-                <th lay-data="{field:'id', width:80, sort: true}">ID</th>
-                <th lay-data="{field:'name', width:120, sort: true, edit: 'text'}">部门名称</th>
-                <th lay-data="{field:'desc_id', width:120}">部门组</th>
-                <th lay-data="{field:'description', edit: 'text', minWidth: 500}">介绍</th>
+                <th lay-data="{field:'group_name', width:120, sort: true, edit: 'text'}">部门名称</th>
+                <th lay-data="{field:'auth', minWidth:120}">拥有权限</th>
+                <th lay-data="{field:'explanation', edit: 'text', minWidth: 500}">部门简介</th>
+                <th lay-data="{field:'data_time', width:120}">创建时间</th>
+                <th lay-data="{'field':'data_time', width:120 ,templet: '#StatusTemplet'}">状态</th>
                 <th lay-data="{'field':'operation', 'toolbar':'#OperationToolBar', width: 160}">操作</th>
             </tr>
             </thead>
@@ -103,12 +104,13 @@
             table.on('row(memberList)', function (tableRow) {
                 layer.confirm('确认要删除吗？', function (index) {
                     $.ajax({
-                        type: "get",
+                        type: "post",
                         async: true,
                         dataType: "json",
-                        url: "/homepage/users/delete/user_action/",
+                        url: "/auth/group/del/del_action/",
                         data: {
-                            'id': tableRow.data.id,
+                            'group_name': tableRow.data.group_name,
+                            'csrfmiddlewaretoken': '{{ csrf_token }}',
                         },
                         success: function (data) {
                             if (data) {
@@ -123,7 +125,7 @@
                             alert("Error！");
                         }
                     });
-                    location.reload();
+                    {#location.reload();#}
                 });
             });
         }
@@ -206,7 +208,7 @@
                 $.ajax({
                     type: 'get',
                     dataType: 'json',
-                    url: '/homepage/users/' + tableRow.data.id +'/',
+                    url: '/homepage/users/' + tableRow.data.id + '/',
                     success: function (data) {
                         tarurl = "memberPassword?" + data.username
                         xadmin.open('修改密码', tarurl, 600, 400);

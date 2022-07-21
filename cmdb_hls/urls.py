@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('homepage/', include('apps.homepage.urls')),
     path('job/', include('job_manager.urls')),
+    path('auth/', include('cmdb_auth.urls')),
     # path('hls/', include('apps.hls.urls')),
 ]
