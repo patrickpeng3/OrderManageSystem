@@ -28,4 +28,3 @@ class auth_add(forms.ModelForm):
         model = user_auth_cmdb
 
         fields = ['__all__']
-#
