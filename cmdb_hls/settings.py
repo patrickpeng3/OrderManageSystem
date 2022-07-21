@@ -85,7 +85,7 @@ INSTALLED_APPS = [
     'rest_framework',
     # 'dwebsocket',
     'audit',
-    # 'cmdb_auth',
+    'cmdb_auth',
     # 'accounts',
 ]
 
