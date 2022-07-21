@@ -6,8 +6,8 @@ from django.contrib.sessions.backends.db import SessionStore
 import json
 from cmdb_auth.forms import cmdb_from, auth_add, auth_add_user
 from cmdb_auth.models import auth_group, user_auth_cmdb
-import hashlib, time
-# from accounts.auth_session import auth_class
+# import hashlib, time
+from accounts.auth_session import auth_class
 
 
 # Create your views here.
@@ -32,8 +32,8 @@ def auth_session_class(uuid):
         if user.session_key:
             s = SessionStore(session_key=user.session_key)
             """查询出权限并设置"""
-            # s['fun_auth'] = auth_class(user)
-            # s.save()
+            s['fun_auth'] = auth_class(user)
+            s.save()
     return True
 
 
