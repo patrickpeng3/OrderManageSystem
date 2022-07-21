@@ -11,7 +11,7 @@ class auth_group(models.Model):
     uuid = models.UUIDField(auto_created=True, primary_key=True, default=uuid.uuid4, editable=False)
     group_name = models.CharField(u"组名", max_length=100, unique=True)
     group_user = models.ManyToManyField(User, blank=True, verbose_name=u"所属用户")
-    enable = models.BooleanField(u"是否启用", default=True)
+    status = models.BooleanField(u"是否启用", default=True)
     explanation = models.TextField(u"角色描述")
     date_time = models.DateTimeField(auto_now_add=True)
 
