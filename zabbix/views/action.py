@@ -6,6 +6,7 @@ import urllib.request
 import sys
 from django.http import JsonResponse, HttpResponse
 from ..tools.base import *
+# from zabbix.models import Groups
 
 
 # Create your views here.

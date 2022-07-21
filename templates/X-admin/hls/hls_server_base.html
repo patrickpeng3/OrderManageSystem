@@ -48,6 +48,7 @@
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
+
                 <div class="layui-form-item">
                     <label for="L_repass" class="layui-form-label"></label>
                     <button class="layui-btn" lay-filter="add" lay-submit="">确定</button>
@@ -143,8 +144,11 @@
                 return false;
             });
     });
+
 </script>
-{% block javaScript %}
-{% endblock %}
+<script>
+    {% block content_js %}
+    {% endblock %}
+</script>
 </body>
 </html>

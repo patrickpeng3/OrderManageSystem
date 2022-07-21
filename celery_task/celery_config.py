@@ -15,3 +15,13 @@ result_backend = "django-db"
 
 # 缓存后端
 cache_backend = 'django-cache'
+
+# 将任务结果使用'pickle'序列化成'json'格式
+# 任务序列化方式
+task_serializer = 'pickle'
+
+# 任务执行结果序列化方式
+result_serializer = 'json'
+
+# 指定任务接受的序列化类型.
+accept_content = ['pickle', 'json']
