@@ -20,5 +20,6 @@ from rest_framework.routers import SimpleRouter
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('homepage/', include('apps.homepage.urls')),
+    path('job/', include('job_manager.urls')),
     # path('hls/', include('apps.hls.urls')),
 ]

@@ -49,6 +49,8 @@ REST_FRAMEWORK = {
     )
 }
 
+ACC_JUMP = True
+
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
@@ -81,6 +83,10 @@ INSTALLED_APPS = [
     'job_manager',
     'django_celery_results',
     'rest_framework',
+    # 'dwebsocket',
+    'audit',
+    # 'cmdb_auth',
+    # 'accounts',
 ]
 
 MIDDLEWARE = [
@@ -92,6 +98,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# WEBSOCKET_ACCEPT_ALL = True   # 可以允许每一个单独的视图实用websockets
 
 ROOT_URLCONF = 'cmdb_hls.urls'
 
@@ -280,3 +288,15 @@ LOGGING = {
         },
     }
 }
+
+
+# 日志根目录
+LOG_BASE_DIR = "/var/log"
+# 每一页显示几条
+PAGE_SIZE = 10
+# 分页数
+PAGE_NUM_PAGES = 11
+# 服务器ssh端口
+SSH_PORT = 22
+# 下载日志目录
+DOWN_LOG_DIR = "/tmp/log_download"

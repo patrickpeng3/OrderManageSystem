@@ -10,6 +10,10 @@ from zabbix.views import action as zabbix_action
 from rest_framework.routers import SimpleRouter
 from apps.hls.views import base_info as hls_base
 from users.views import base_info as users_base
+from job_manager.views import action as job_action
+from audit import views as audit_action
+# from cmdb_auth.views import page as auth_page
+# from cmdb_auth.views import action as auth_action
 
 
 urlpatterns = [
@@ -31,6 +35,8 @@ urlpatterns = [
 
     # 部门列表
     path('index/departmentList', users_page.departmentList),
+    path('index/roleList', users_page.roleList),
+    path('index/role_add', users_page.roleAdd),
 
     # 游服列表
     path('index/hls', hls_page.server_list),
@@ -48,7 +54,13 @@ urlpatterns = [
     path('index/hls_stop', hls_page.stop_game),
     # 删服
     path('index/hls_delete', hls_page.start_game),
+    # 日志
+    path('index/hls_log', job_action.hls_log),
+    path('index/hls_log_action', job_action.hls_log_action),
+    path('index/audit_list', audit_action.audit_list),
+    path('index/audit_list_action', audit_action.audit_list_action),
 
+    # zabbix
     path('index/zabbix_host_list', zabbix_page.host_list),
     path('index/zabbix_host_list_action', zabbix_action.get_host),
 ]
