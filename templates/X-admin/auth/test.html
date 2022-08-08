@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- <script src="../../../static/vue/vue.global.js"></script> -->
+    {#	<script src="/static/vue/vue.global.js" type="text/javascript" charset="utf-8"></script>#}
+    <script src="/static/js/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="../../../static/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../../static/js/xadmin.js"></script>
+</head>
+<body>
+<div id="test">
+    <form>
+        {% csrf_token %}
+        <div id="div1">
+            <input type="" name="" id="ipt1" value="" placeholder="测试输入框"/>
+            <button type="button" id="btn1" @click="start">按钮1</button>
+            <button type="button" id="btn2">按钮2</button>
+        </div>
+    </form>
+</div>
+
+<button id="btn3" onclick="add_auth(this)">按钮3</button>
+
+<script type="text/javascript">
+    // import axios from 'axios';
+    // Vue.prototype.axios = axios;
+    {#var csrf = $('input[name="csrfmiddlewaretoken"]').val();#}
+
+    const vm = new Vue({
+        el: '#test',
+        delimiters: ['[[', ']]'],
+        data: {
+            {#csrfmiddlewaretoken: csrf,#}
+            dialog: false,
+            filter: {
+                id_range: '',
+                channel_id: '',
+                host_id: '',
+                deploy: '',
+                status: ''
+            },
+            selection: {
+                sever_deploy: [],
+                server_status: [],
+                server_php: []
+            },
+            multipleSelection: [],
+            startForm: {
+                check: false,
+                server_ids: [],
+                id_range: '',
+                selection: [],
+            },
+        },
+        methods: {
+            actionPost(action, form) {
+                {# if (form.check === true){#}
+                axios.post(action, form)
+                    .then((response) => {
+                        if (form.check === false) {
+                            form.server_ids = response.data.data.lis;
+                            if (response.data.data.convert_lis) {
+                                form.convert_lis = response.data.data.convert_lis;
+                            }
+                        } else {
+                            this.$message.success(response.data.msg);
+                            form.check = false;
+                        }
+                    })
+                    .catch((err) => {
+                        form.check = false;
+                        this.$message.error(err.response.data.msg);
+                    })
+                {# } else {#}
+                {#    alert("error");#}
+                {# }#}
+            },
+            start() {
+                alert("test");
+                this.startForm.selection = this.multipleSelection;
+                this.startForm.id_range = this.filter.id_range;
+                this.actionPost("/homepage/hls/start/game_action/", this.startForm);
+            }
+        }
+    });
+    {#Vue.createApp(vm).mount('#test');#}
+
+    function add_auth() {
+        var $ = layui.$;
+        {#alert("test");#}
+        $.ajax({
+            type: 'get',
+            async: true,
+            dataType: 'json',
+            url: '/auth/group/alter/my_test/',
+            data: {},
+            success: function (data) {
+                alert(data);
+            },
+            error: function (data) {
+                alert("error");
+            }
+        })
+    }
+
+</script>
+</body>
+</html>

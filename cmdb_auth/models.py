@@ -12,7 +12,7 @@ class auth_group(models.Model):
     group_name = models.CharField(u"组名", max_length=100, unique=True)
     group_user = models.ManyToManyField(User, blank=True, verbose_name=u"所属用户")
     status = models.BooleanField(u"是否启用", default=True)
-    explanation = models.TextField(u"角色描述")
+    explanation = models.TextField(u"角色描述", blank=True, null=True)
     date_time = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
