@@ -105,8 +105,8 @@ class StartGame(ActionBase):
         server_id = form.get("L_serverid")
         SCRIPT_LOGGER.info("执行启{}服".format(server_id))
         username = request.user.username
-        status = start_entry(username, server_id)
-        return Response(status)
+        start_entry(username, server_id)
+        return Response()
 
 
 class DeleteGame(ActionBase):
@@ -161,5 +161,5 @@ class StopGame(ActionBase):
         server_id = form.get("L_serverid")
         SCRIPT_LOGGER.info("执行停{}服!".format(server_id))
         username = request.user.username
-        status = stop_entry(username, server_id)
-        return Response(status)
+        stop_entry(username, server_id)
+        return Response()
