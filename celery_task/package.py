@@ -11,6 +11,7 @@ def get_result(celery_task):
     :return:
     """
     pk = celery_task.task_id
+    # 1
     async = AsyncResult(id=pk, app=app)
     while True:
         if async.successful():
