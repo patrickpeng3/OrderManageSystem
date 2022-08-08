@@ -42,10 +42,11 @@ def start_entry(username, server_id):
     :param server_id: 游服id
     :return:
     """
+    params = json.dumps(locals(), ensure_ascii=False)
     cmd_list = []
     get_cmd.start_game(server_id, cmd_list)
-    job_task, job_cmds = job_start_before("启服", username, start_entry, cmd_list)
-    return task_runner_celery(job_task, job_cmds)
+    job_task, job_cmds = job_start_before("启服", username, start_entry, params, cmd_list)
+    return task_runner_celery.delay(job_task, job_cmds)
 
 
 def stop_entry(username, server_id):

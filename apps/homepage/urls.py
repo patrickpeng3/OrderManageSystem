@@ -37,7 +37,8 @@ urlpatterns = [
     path('index/GroupList', auth_page.GroupList),
     path('index/GroupAdd', auth_page.GroupAdd),
     path('index/GroupAlter', auth_page.GroupAlter),
-    # 测试
+
+    # 测试1
     path('index/test', page.pageTest),
 
     # 游服列表
@@ -58,7 +59,7 @@ urlpatterns = [
     path('index/hls_delete', hls_page.start_game),
     # 日志
     path('index/hls_log', job_action.hls_log),
-    path('index/hls_log_action', job_action.hls_log_action),
+    # path('index/hls_log_action', job_action.hls_log_action),
     path('index/audit_list', audit_action.audit_list),
     path('index/audit_list_action', audit_action.audit_list_action),
 

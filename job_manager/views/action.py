@@ -10,7 +10,7 @@ from job_manager.models import JobTask, JobCmd
 from job_manager.serializer import JobTaskInfoSerializer, JobTaskSimpleSerializer, JobCmdInfoSerializer, \
     JobCmdSimpleSerializer, JobTaskWebSocketInfoSerializer
 # from job_manager.views.base_info import JobCmdInfoViewSet, JobTaskInfoViewSet
-from channels.db import database_sync_to_async
+# from channels.db import database_sync_to_async
 
 
 def hls_log(request):
@@ -24,28 +24,28 @@ def hls_log(request):
 #     ).data)
 
 
-async def hls_log_action(scope, receive, send):
-    # print(test())
-    while True:
-        event = await receive()
-
-        if event['type'] == 'websocket.connect':
-            await send({
-                'type': 'websocket.accept'
-            })
-
-        if event['type'] == 'websocket.disconnect':
-            break
-
-        if event['type'] == 'websocket.receive':
-            if event['text'] == 'ping':
-                # process = JobTaskWebSocketInfoSerializer(
-                #     JobTask.objects.prefetch_related('cmds').filter(confirm=False).all(), many=True
-                # ).data
-                # process = test()
-                await send({
-                    'type': 'websocket.send',
-                    # 'text': process,
-                    'text': 'test',
-                })
-            time.sleep(1)
+# async def hls_log_action(scope, receive, send):
+#     # print(test())
+#     while True:
+#         event = await receive()
+#
+#         if event['type'] == 'websocket.connect':
+#             await send({
+#                 'type': 'websocket.accept'
+#             })
+#
+#         if event['type'] == 'websocket.disconnect':
+#             break
+#
+#         if event['type'] == 'websocket.receive':
+#             if event['text'] == 'ping':
+#                 # process = JobTaskWebSocketInfoSerializer(
+#                 #     JobTask.objects.prefetch_related('cmds').filter(confirm=False).all(), many=True
+#                 # ).data
+#                 # process = test()
+#                 await send({
+#                     'type': 'websocket.send',
+#                     # 'text': process,
+#                     'text': 'test',
+#                 })
+#             time.sleep(1)
