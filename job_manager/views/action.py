@@ -10,7 +10,7 @@ from job_manager.models import JobTask, JobCmd
 from job_manager.serializer import JobTaskInfoSerializer, JobTaskSimpleSerializer, JobCmdInfoSerializer, \
     JobCmdSimpleSerializer, JobTaskWebSocketInfoSerializer
 # from job_manager.views.base_info import JobCmdInfoViewSet, JobTaskInfoViewSet
-from channels.db import database_sync_to_async
+# from channels.db import database_sync_to_async
 
 
 def hls_log(request):

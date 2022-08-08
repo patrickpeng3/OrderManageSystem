@@ -3,6 +3,8 @@ from kombu import Exchange, Queue
 import os
 import sys
 sys.path.append('/data/gitlab/oam-admin/cmdb_hls')
+from celery import Celery, platforms
+platforms.C_FORCE_ROOT = True
 
 # 设置celery时区
 timezone = "Asia/Shanghai"

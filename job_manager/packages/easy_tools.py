@@ -223,7 +223,7 @@ def task_runner_celery(job_task, job_cmd_infos, serial=None):
     :return: 错误信息或None
     """
     error = None
-    # status = "success"
+    status = "success"
     serial = serial
     try:
         job_task_start(job_task)
@@ -237,10 +237,10 @@ def task_runner_celery(job_task, job_cmd_infos, serial=None):
         if error is None:
             error = traceback.format_exc()
         job_task_interrupt(job_task, error)
-        # status = "error"
+        status = "error"
     finally:
         # async_runner.delay(job_task_confirm, job_task)
-        status = select_runner_result(job_task)
+        # status = select_runner_result(job_task)
         return status
 
 
