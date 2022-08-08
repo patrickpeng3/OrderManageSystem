@@ -98,47 +98,28 @@
                         $("#load_tips").remove();
                     },
                     success: function (data) {
-                        if (data == "success") {
-                            {% block ajax_successAlert %}
-                                layer.alert("停服成功", {
+                        layer.alert("发起任务成功", {
                                 icon: 6
                             },
-                            {% endblock %}
-                        function () {
-                            //关闭当前frame
-                            xadmin.close();
+                            function () {
+                                //关闭当前frame
+                                xadmin.close();
 
-                            // 可以对父窗口进行刷新
-                            xadmin.father_reload();
-                        });
-                        } else {
-                            {% block ajax_failedAlert %}
-                                layer.alert("停服失败", {
-                                icon: 5
-                            },
-                            {% endblock %}
-                        function () {
-                            //关闭当前frame
-                            xadmin.close();
-
-                            // 可以对父窗口进行刷新
-                            xadmin.father_reload();
-                        });
-                        }
+                                // 可以对父窗口进行刷新
+                                xadmin.father_reload();
+                            });
                     },
                     error: function (data) {
-                        {% block ajax_errorAlert %}
-                            layer.alert("停服错误", {
-                            icon: 5
-                        },
-                        {% endblock %}
-                    function () {
-                        //关闭当前frame
-                        xadmin.close();
+                        layer.alert("任务错误", {
+                                icon: 5
+                            },
+                            function () {
+                                //关闭当前frame
+                                xadmin.close();
 
-                        // 可以对父窗口进行刷新
-                        xadmin.father_reload();
-                    });
+                                // 可以对父窗口进行刷新
+                                xadmin.father_reload();
+                            });
                     },
                 });
                 return false;
