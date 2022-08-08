@@ -12,7 +12,7 @@ from apps.hls.views import base_info as hls_base
 from users.views import base_info as users_base
 from job_manager.views import action as job_action
 from audit import views as audit_action
-# from cmdb_auth.views import page as auth_page
+from cmdb_auth.views import page as auth_page
 # from cmdb_auth.views import action as auth_action
 
 
@@ -34,9 +34,11 @@ urlpatterns = [
     path('index/memberPassword', users_page.memberPassword),
 
     # 部门列表
-    path('index/departmentList', users_page.departmentList),
-    path('index/roleList', users_page.roleList),
-    path('index/role_add', users_page.roleAdd),
+    path('index/GroupList', auth_page.GroupList),
+    path('index/GroupAdd', auth_page.GroupAdd),
+    path('index/GroupAlter', auth_page.GroupAlter),
+    # 测试
+    path('index/test', page.pageTest),
 
     # 游服列表
     path('index/hls', hls_page.server_list),

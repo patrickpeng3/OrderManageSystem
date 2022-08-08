@@ -38,16 +38,21 @@
         form.on('submit(add)',
             function (data) {
                 var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+
                 {%  block ajax_value %}
                 {% endblock %}
+
                 $.ajax({
                     {% block ajax_type %}
                         type: "post",
                     {% endblock %}
+
                     dataType: "json",
+
                     {% block ajax_url %}
                         url: "/homepage/users/add/user_action/",
                     {% endblock %}
+
                     async: true,
                     data: {
                         "csrfmiddlewaretoken": csrf,

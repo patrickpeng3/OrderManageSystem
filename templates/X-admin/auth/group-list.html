@@ -4,7 +4,7 @@
     <div class="layui-card-header">
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除
         </button>
-        <button class="layui-btn" onclick="xadmin.open('添加部门','role_add',800,580)"><i
+        <button class="layui-btn" onclick="xadmin.open('添加部门','GroupAdd',800,580)"><i
                 class="layui-icon"></i>添加
         </button>
     </div>
@@ -99,7 +99,7 @@
 
     {% block content_javaScript %}
         /*用户-删除*/
-        function member_del(obj) {
+        function group_del(obj) {
             var table = layui.table;
             table.on('row(memberList)', function (tableRow) {
                 layer.confirm('确认要删除吗？', function (index) {
@@ -125,7 +125,7 @@
                             alert("Error！");
                         }
                     });
-                    {#location.reload();#}
+                    location.reload();
                 });
             });
         }
@@ -202,16 +202,24 @@
         }
 
 
-        function ChangePasswd() {
+        function group_alter() {
             var table = layui.table;
             table.on('row(memberList)', function (tableRow) {
+                var test = tableRow.data.group_name;
+                console.log(test);
                 $.ajax({
-                    type: 'get',
+                    type: 'post',
                     dataType: 'json',
-                    url: '/homepage/users/' + tableRow.data.id + '/',
+                    url: '/auth/group/alter/alter_action/',
+                    data: {
+                        'group_name': tableRow.data.group_name,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    },
                     success: function (data) {
-                        tarurl = "memberPassword?" + data.username
-                        xadmin.open('修改密码', tarurl, 600, 400);
+                        xadmin.open('修改密码', 'GroupAlter', 800, 580);
+                        {#alert(data);#}
+                        var str = $.param(tableRow.data.group_name);
+                        console.log(str);
                     },
                     error: function (data) {
                         alert("error");
@@ -237,10 +245,11 @@
 
     <!-- 用户操作 -->
     <script type="text/html" id="OperationToolBar">
-        <a onclick="ChangePasswd(this)" title="修改密码" href="javascript:;">
+        <a onclick="group_alter(this, '修改权限')" href="javascript:;">
             <i class="layui-icon">&#xe631;</i>
         </a>
-        <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+
+        <a title="删除" onclick="group_del(this,'要删除的id')" href="javascript:;">
             <i class="layui-icon">&#xe640;</i>
         </a>
     </script>

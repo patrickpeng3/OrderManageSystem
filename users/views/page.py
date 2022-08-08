@@ -18,17 +18,3 @@ def memberAdd(request):
 def memberPassword(request):
     return render(request, "X-admin/users/member-password.html")
 
-
-# 部门列表
-def departmentList(request):
-    return render(request, "X-admin/auth/department-list.html")
-
-
-# 角色列表
-def roleList(request):
-    return render(request, "X-admin/auth/admin-role.html")
-
-
-# 角色列表
-def roleAdd(request):
-    return render(request, "X-admin/auth/role-add.html")

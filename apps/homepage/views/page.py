@@ -31,3 +31,7 @@ def orderList(request):
 def orderList1(request):
     return render(request, "X-admin/homepage/order-list1.html")
 
+
+def pageTest(request):
+    return render(request, 'X-admin/auth/test.html')
+
