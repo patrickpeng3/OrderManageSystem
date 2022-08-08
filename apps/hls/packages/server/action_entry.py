@@ -15,9 +15,10 @@ def create_entry(username, special, number):
     :param number: 搭服数量
     :return:
     """
+    params = json.dumps(locals(), ensure_ascii=False)
     cmd_list = []
     get_cmd.create_game(special, number, cmd_list)
-    job_task, job_cmds = job_start_before("搭服", username, create_entry, cmd_list)
+    job_task, job_cmds = job_start_before("搭服", username, create_entry, params, cmd_list)
     return task_runner_celery.delay(job_task, job_cmds)
 
 
@@ -29,9 +30,10 @@ def update_entry(username, server_id, version):
     :param version: 更新版本
     :return:
     """
+    params = json.dumps(locals(), ensure_ascii=False)
     cmd_list = []
     get_cmd.update_game(server_id, version, cmd_list)
-    job_task, job_cmds = job_start_before("更新", username, update_entry, cmd_list)
+    job_task, job_cmds = job_start_before("更新", username, update_entry, params, cmd_list)
     return task_runner_celery.delay(job_task, job_cmds)
 
 
@@ -82,7 +84,8 @@ def delete_entry(username, server_id):
     :param server_id: 游服id
     :return:
     """
+    params = json.dumps(locals(), ensure_ascii=False)
     cmd_list = []
     get_cmd.stop_game(server_id, cmd_list)
-    job_task, job_cmds = job_start_before("启服", username, delete_entry, cmd_list)
+    job_task, job_cmds = job_start_before("启服", username, delete_entry, params, cmd_list)
     return task_runner_celery.delay(job_task, job_cmds)
