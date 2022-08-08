@@ -72,11 +72,12 @@ class CreateGame(ActionBase):
     @action(methods=['post'], detail=False)
     def game_action(self, request):
         form = request.data
+        status = "success"
         special = form.get("L_special")
         number = form.get("L_num")
         SCRIPT_LOGGER.info("执行创服\n专服：{}\n创服数：{}".format(special, number))
         username = request.user.username
-        status = create_entry(username, special, number)
+        create_entry(username, special, number)
         return Response(status)
 
 
@@ -87,11 +88,12 @@ class UpdateGame(ActionBase):
     @action(methods=['post'], detail=False)
     def game_action(self, request):
         form = request.data
+        status = "success"
         server_id = form.get("L_serverid")
         version = form.get("L_version")
         SCRIPT_LOGGER.info("执行更新\n游服：{}\n后端版本：{}!".format(server_id, version))
         username = request.user.username
-        status = update_entry(username, server_id, version)
+        update_entry(username, server_id, version)
         return Response(status)
 
 
@@ -102,11 +104,27 @@ class StartGame(ActionBase):
     @action(methods=['post'], detail=False)
     def game_action(self, request):
         form = request.data
+        status = "success"
         server_id = form.get("L_serverid")
         SCRIPT_LOGGER.info("执行启{}服".format(server_id))
         username = request.user.username
         start_entry(username, server_id)
-        return Response()
+        return Response(status)
+
+
+class StopGame(ActionBase):
+    """
+    停服
+    """
+    @action(methods=['post'], detail=False)
+    def game_action(self, request):
+        form = request.data
+        status = "success"
+        server_id = form.get("L_serverid")
+        SCRIPT_LOGGER.info("执行停{}服!".format(server_id))
+        username = request.user.username
+        stop_entry(username, server_id)
+        return Response(status)
 
 
 class DeleteGame(ActionBase):
@@ -116,10 +134,11 @@ class DeleteGame(ActionBase):
     @action(methods=['post'], detail=False)
     def game_action(self, request):
         form = request.data
+        status = "success"
         server_id = form.get("L_serverid")
         SCRIPT_LOGGER.info("执行删{}服".format(server_id))
         username = request.user.username
-        status = delete_entry(username, server_id)
+        delete_entry(username, server_id)
         return Response(status)
 
 
@@ -129,8 +148,8 @@ class EditGame(ActionBase):
     """
     @action(methods=['post'], detail=False)
     def game_action(self, request):
-        status = "success"
         form = request.data
+        status = "success"
         server_id = form.get("L_serverid")
         special_server = form.get("L_special")
         salt_id = form.get("L_server")
@@ -151,15 +170,3 @@ class EditGame(ActionBase):
         return Response(status)
 
 
-class StopGame(ActionBase):
-    """
-    停服
-    """
-    @action(methods=['post'], detail=False)
-    def game_action(self, request):
-        form = request.data
-        server_id = form.get("L_serverid")
-        SCRIPT_LOGGER.info("执行停{}服!".format(server_id))
-        username = request.user.username
-        stop_entry(username, server_id)
-        return Response()
