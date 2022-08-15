@@ -14,9 +14,6 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.decorators import action
 
 
-# Create your views here.
-
-
 class ActionBase(ViewSet):
     """
     执行基础

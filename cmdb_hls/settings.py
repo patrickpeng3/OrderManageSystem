@@ -87,7 +87,10 @@ INSTALLED_APPS = [
     'audit',
     'cmdb_auth',
     # 'accounts',
+    'channels',
 ]
+
+ASGI_APPLICATION = 'cmdb_hls.routing.application'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

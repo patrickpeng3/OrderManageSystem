@@ -24,16 +24,18 @@
 
 <button id="btn3" onclick="add_auth(this)">按钮3</button>
 
-<script type="text/javascript">
-    // import axios from 'axios';
-    // Vue.prototype.axios = axios;
-    {#var csrf = $('input[name="csrfmiddlewaretoken"]').val();#}
+<div id="test2">
+    <input type="text" v-model="message" value="111">
+    <button @click="send">发送</button>
+    <button @click="close">关闭</button>
+</div>
 
-    const vm = new Vue({
+<script type="text/javascript">
+
+    const vm1 = new Vue({
         el: '#test',
         delimiters: ['[[', ']]'],
         data: {
-            {#csrfmiddlewaretoken: csrf,#}
             dialog: false,
             filter: {
                 id_range: '',
@@ -57,7 +59,6 @@
         },
         methods: {
             actionPost(action, form) {
-                {# if (form.check === true){#}
                 axios.post(action, form)
                     .then((response) => {
                         if (form.check === false) {
@@ -74,9 +75,6 @@
                         form.check = false;
                         this.$message.error(err.response.data.msg);
                     })
-                {# } else {#}
-                {#    alert("error");#}
-                {# }#}
             },
             start() {
                 alert("test");
@@ -86,11 +84,9 @@
             }
         }
     });
-    {#Vue.createApp(vm).mount('#test');#}
 
     function add_auth() {
         var $ = layui.$;
-        {#alert("test");#}
         $.ajax({
             type: 'get',
             async: true,
@@ -105,6 +101,34 @@
             }
         })
     }
+
+    const vm2 = new Vue({
+        el: "#test2",
+        data() {
+            return {
+                message: '',
+                test_socket: '',
+            }
+        },
+        methods: {
+            send() {
+                this.test_socket.send(this.message)
+                this.test_socket.onmessage = (res) => {
+                    console.log("ws的返回结果：", res.data);
+                }
+            },
+            close() {
+                this.test_socket.close()
+            }
+        },
+        mounted() {
+            this.test_socket = new WebSocket("ws://localhost:8000/ws/")
+            this.test_socket.onerror = function (event){
+                alert("websocket error!")
+                console.log(event.data)
+            }
+        }
+    })
 
 </script>
 </body>

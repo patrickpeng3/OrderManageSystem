@@ -10,11 +10,17 @@ from zabbix.views import action as zabbix_action
 from rest_framework.routers import SimpleRouter
 from apps.hls.views import base_info as hls_base
 from users.views import base_info as users_base
+from job_manager.views import base_info as job_base
 from job_manager.views import action as job_action
+from job_manager.views import page as job_page
 from audit import views as audit_action
 from cmdb_auth.views import page as auth_page
 # from cmdb_auth.views import action as auth_action
+from job_manager.chatService import ChatService
 
+websocket_url = [
+    path('ws/', ChatService.as_asgi())
+]
 
 urlpatterns = [
     # path('', include(router.urls)),
@@ -58,7 +64,7 @@ urlpatterns = [
     # 删服
     path('index/hls_delete', hls_page.start_game),
     # 日志
-    path('index/hls_log', job_action.hls_log),
+    path('index/hls_log', job_page.hls_log),
     # path('index/hls_log_action', job_action.hls_log_action),
     path('index/audit_list', audit_action.audit_list),
     path('index/audit_list_action', audit_action.audit_list_action),
@@ -106,5 +112,11 @@ router.register(r'hls/create', hls_action.CreateGame, basename="创服")
 router.register(r'hls/list', hls_action.GameList, basename="游服列表")
 # 修改信息
 router.register(r'hls/edit', hls_action.EditGame, basename="修改信息")
+
+
+# 唤灵师日志
+router.register(r'log', job_base.JobTaskInfoViewSet, basename='日志')
+router.register(r'log/list', job_action.TaskList, basename="日志列表")
+
 
 urlpatterns += router.urls
