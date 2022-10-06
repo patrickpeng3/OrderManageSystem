@@ -16,11 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import SimpleRouter
+from rest_framework import urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('homepage/', include('apps.homepage.urls')),
     path('job/', include('job_manager.urls')),
     path('auth/', include('cmdb_auth.urls')),
+    path('api/', include('rest_framework.urls')),
     # path('hls/', include('apps.hls.urls')),
 ]
+
+LOGIN_REDIRECT_URL = '/homepage/index/'

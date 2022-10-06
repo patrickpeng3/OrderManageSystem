@@ -15,7 +15,7 @@ def get_authID():
         "method": "user.login",
         "params": {
             "user": "pengguanghong",
-            "password": "pengguanghong"
+            "password": "XXXXXXXXXXX"
         },
         "id": 2
     }).encode("utf-8")

@@ -1,51 +1,52 @@
 import os
-import django
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cmdb_hls.settings')
-django.setup()
-from django.shortcuts import render
 import time
-# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cmdb_hls.settings')
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.viewsets import ViewSet
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from job_manager.models import JobTask, JobCmd
-from job_manager.serializer import JobTaskInfoSerializer, JobTaskSimpleSerializer, JobCmdInfoSerializer, \
-    JobCmdSimpleSerializer, JobTaskWebSocketInfoSerializer
-# from job_manager.views.base_info import JobCmdInfoViewSet, JobTaskInfoViewSet
-# from channels.db import database_sync_to_async
 
 
-def hls_log(request):
-    return render(request, 'X-admin/hls/hls_log.html')
+class ActionBase(ViewSet):
+    """
+    执行基础
+    """
+    # permission_classes = [IsAuthenticated]
 
 
-# @database_sync_to_async
-# def test(self):
-#     return str(JobTaskWebSocketInfoSerializer(
-#         JobTask.objects.prefetch_related('cmds').filter(confirm=False).all(), many=True
-#     ).data)
-
-
-# async def hls_log_action(scope, receive, send):
-#     # print(test())
-#     while True:
-#         event = await receive()
-#
-#         if event['type'] == 'websocket.connect':
-#             await send({
-#                 'type': 'websocket.accept'
-#             })
-#
-#         if event['type'] == 'websocket.disconnect':
-#             break
-#
-#         if event['type'] == 'websocket.receive':
-#             if event['text'] == 'ping':
-#                 # process = JobTaskWebSocketInfoSerializer(
-#                 #     JobTask.objects.prefetch_related('cmds').filter(confirm=False).all(), many=True
-#                 # ).data
-#                 # process = test()
-#                 await send({
-#                     'type': 'websocket.send',
-#                     # 'text': process,
-#                     'text': 'test',
-#                 })
-#             time.sleep(1)
+class TaskList(ViewSet):
+    """
+    任务列表
+    """
+    @action(methods=['get'], detail=False)
+    def log_action(self, request):
+        task_list, data_list = [[] for i in range(2)]
+        form = request.GET
+        method = form.get("method")
+        search_value = form.get("search_input")
+        if method == "search" and search_value:
+            server_value_list = JobTask.objects.all().values()
+            for server_value in server_value_list:
+                for k, v in server_value.items():
+                    if str(search_value) in str(v):
+                        server = JobTask.objects.filter(id=server_value['id'])[0]
+                        task_list.append(server)
+                        break
+        else:
+            task_list = JobTask.objects.all()
+        for task in task_list:
+            data_cfg = {
+                "name": task.name,
+                "username": task.username,
+                "start_time": task.start_time,
+                "end_time": task.end_time,
+                "status": task.status,
+            }
+            data_list.append(data_cfg)
+        jsonData = {
+            "code": 0,
+            "msg": "",
+            "count": len(task_list),
+            "data": data_list
+        }
+        return Response(jsonData)

@@ -1,19 +1,21 @@
 {% extends 'X-admin/base/list_base.html' %}
 
+{% block content_btn %}
+{% endblock %}
+
 {% block content_table %}
     <div class="layui-card-body">
         <table class="layui-table"
-               lay-data="{url:'/homepage/index/audit_list_action',page:true,toolbar: '#toolbarDemo',id:'memberList'}"
+               lay-data="{url:'/homepage/log/list/log_action/',page:true,toolbar: '#toolbarDemo',id:'memberList'}"
                lay-filter="memberList">
             <thead>
             <tr>
                 <th lay-data="{type:'checkbox'}">ID</th>
-                <th lay-data="{field:'id', width:80, sort: true}">ID</th>
-                <th lay-data="{field:'username', width:120, sort: true, edit: 'text'}">操作者</th>
-                <th lay-data="{field:'bash_shell', edit: 'text', minWidth: 150}">命令</th>
-                <th lay-data="{field:'audit_data_time', minWidth:80}">操作时间</th>
-                <th lay-data="{field:'server_ip', edit: 'text', minWidth: 100}">服务器ip</th>
-                <th lay-data="{'field':'operation', 'toolbar':'#OperationToolBar'}">操作</th>
+                <th lay-data="{field:'name', width:80, sort: true}">任务名</th>
+                <th lay-data="{field:'username', width:120, sort: true}">操作者</th>
+                <th lay-data="{field:'start_time', minWidth: 150}">开始时间</th>
+                <th lay-data="{field:'end_time', minWidth:80}">结束时间</th>
+                <th lay-data="{field:'status', minWidth: 100}">状态</th>
             </tr>
             </thead>
         </table>
@@ -21,4 +23,20 @@
 {% endblock %}
 
 <script>
+    {% block content_search %}
+        var active = {
+            reload: function () {
+                var search_value = $('#search_input').val();
+                table.reload('memberList', {
+                    page: {
+                        curr: 1
+                    },
+                    where: {
+                        "search_input": search_value,
+                        "method": "search"
+                    }
+                });
+            }
+        };
+    {% endblock %}
 </script>
